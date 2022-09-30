@@ -148,7 +148,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
           height: SizeConfig.blockSizeVertical * 2,
         ),
         const Text(
-          'Check Availability of morning and evening slots',
+          'Check availability of morning and evening slots',
           textAlign: TextAlign.center,
         ),
         SizedBox(

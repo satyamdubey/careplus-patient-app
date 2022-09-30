@@ -355,12 +355,16 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
       EasyLoading.dismiss();
       if (response != null && response is Appointment) {
         await _initiatePayment(response, total);
+      }else{
+        EasyLoading.showToast('Some problem in creating the appointment');
       }
     } else {
       var response = await _appointmentController.createAppointmentForFamilyMember(familyMember.id);
       EasyLoading.dismiss();
       if (response != null && response is Appointment) {
         await _initiatePayment(response, total);
+      }else{
+        EasyLoading.showToast('Some problem in creating the appointment');
       }
     }
   }

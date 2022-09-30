@@ -19,18 +19,28 @@ class PatientController extends GetxController{
   }
 
 
-  dynamic _patientPhotoId = StorageHelper.getUserPhotoId();
+  bool _isPatientDetailLoaded = false;
+
+  bool get isPatientDetailLoaded => _isPatientDetailLoaded;
+
+  dynamic _patientPhotoId;
 
   dynamic get patientPhotoId => _patientPhotoId;
 
-  set patientPhotoId(dynamic value){
+  void updatePatientPhotoId(dynamic value) {
     _patientPhotoId = value;
     update();
   }
 
-  void updatePatientPhotoId(dynamic value) {
-    _patientPhotoId = value;
-    StorageHelper.setUserPhotoId(value);
+
+  Future<void> getPatientDetails() async{
+    var response = await ApiClient().getData(ApiConstant.getPatientDetail+StorageHelper.getUserId());
+    if(response is http.Response && response.statusCode==200){
+      PatientData patientData = patientDataFromJson(response.body);
+      await _storePatientDetails(patientData.patient);
+      _patientPhotoId = patientData.patient.photo;
+    }
+    _isPatientDetailLoaded = true;
     update();
   }
 
@@ -42,7 +52,6 @@ class PatientController extends GetxController{
       _storePatientDetails(patientData.patient);
       return true;
     }else{
-      print(response.body);
       return false;
     }
   }
@@ -61,7 +70,6 @@ class PatientController extends GetxController{
       return true;
     }
     else {
-      print(response.reasonPhrase);
       return false;
     }
 

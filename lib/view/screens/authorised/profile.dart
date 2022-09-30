@@ -8,6 +8,7 @@ import 'package:careplus_patient/controller/patient_controller.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
 import 'package:careplus_patient/view/screens/authorised/favourite_clinics.dart';
 import 'package:careplus_patient/view/screens/authorised/profile_update.dart';
+import 'package:careplus_patient/view/screens/authorised/terms_and_condition.dart';
 import 'package:careplus_patient/view/screens/unauthorised/welcome_screen.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,8 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    patientController.patientPhotoId=StorageHelper.getUserPhotoId();
     super.initState();
+    patientController.getPatientDetails();
   }
 
   @override
@@ -39,16 +40,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         preferredSize: Size.fromHeight(0),
         child: StatusBar(),
       ),
-      body: Column(
-        children: [
-          GetBuilder<PatientController>(builder: (_){
-            return profileImageView();
-          }),
-          Expanded(
-            child: settingListView(context),
-          )
-        ],
-      ),
+      body: GetBuilder<PatientController>(builder: (_){
+        return patientController.isPatientDetailLoaded
+          ? Column(
+            children: [
+              profileImageView(),
+              Expanded(child: settingListView(context))
+            ])
+          : const Center(child:CircularProgressIndicator());
+      }),
     );
   }
 
@@ -121,18 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         horizontal: HORIZONTAL_PADDING_LARGE,
       ),
       children: [
-        /*settingWidget(
-          Icons.notifications_outlined,
-          'Notification',
-          SizedBox(
-            width: 40,
-            child: CupertinoSwitch(
-              value: false,
-              onChanged: (bool? val) {},
-            ),
-          ),
-          () {},
-        ),
+        /*
         const SizedBox(height: 25),
         settingWidget(
           Icons.language_outlined,
@@ -197,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             size: ICON_SIZE_DEFAULT,
             color: ARROW_ICON_COLOR,
           ),
-          () {},
+          ()=>Get.to(()=>const TermsAndConditionScreen()),
         ),
         const SizedBox(height: 25),
         settingWidget(

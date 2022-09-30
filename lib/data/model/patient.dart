@@ -31,7 +31,6 @@ class Patient {
     this.phone,
     this.gender,
     this.address,
-    this.notificationToken,
   });
 
   dynamic id;
@@ -42,7 +41,6 @@ class Patient {
   dynamic phone;
   dynamic gender;
   dynamic address;
-  dynamic notificationToken;
 
   factory Patient.fromJson(Map<String, dynamic> json) => Patient(
     location: Location.fromJson(json["location"]),
@@ -53,7 +51,6 @@ class Patient {
     phone: json["phone"],
     gender: json["gender"],
     address: json["address"],
-    notificationToken: json["notificationsToken"],
   );
 
   Map<String, dynamic> toJson() => {

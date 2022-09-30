@@ -18,8 +18,6 @@ class StorageHelper{
   // reference keys
   static const String _keyUserId = "token";
   static const String _keyUserName = "userName";
-  static const String _keyUserPhotoPath = "userPhoto";
-  static const String _keyUserPhotoId = "userPhotoId";
   static const String _keyUserAge = "age";
   static const String _keyUserGender = "gender";
   static const String _keyUserPhone = "phone";
@@ -41,16 +39,6 @@ class StorageHelper{
 
   static dynamic getUserName() =>
       _preferences.getString(_keyUserName);
-
-
-  static Future<void> setUserPhotoId(dynamic userPhotoId) async{
-    if(userPhotoId!=null){
-      await _preferences.setString(_keyUserPhotoId, userPhotoId);
-    }
-  }
-
-  static dynamic getUserPhotoId() =>
-      _preferences.getString(_keyUserPhotoId);
 
 
   static Future<void> setUserAge(int userAge) async =>

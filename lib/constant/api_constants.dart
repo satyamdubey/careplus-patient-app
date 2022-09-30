@@ -12,6 +12,7 @@ class ApiConstant{
   static const String updateLocation = "api/v1/patient/update/location/";
 
   // patient apis
+  static const String getPatientDetail = "api/v1/patient/dashboard/";
   static const String updatePhoto = "api/v1/patient/photo/";
   static const String updateProfile = "api/v1/patient/update/profile/";
 

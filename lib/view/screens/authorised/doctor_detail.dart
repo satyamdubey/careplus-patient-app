@@ -111,7 +111,7 @@ class DoctorDetailScreen extends StatelessWidget {
         ),
         const Spacer(flex: 2),
         Expanded(
-          flex: 4,
+          flex: 3,
           child: GestureDetector(
             onTap: ()=>Get.to(()=>DoctorReviewsScreen(doctor: doctor)),
             child: RatingWidget(

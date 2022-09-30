@@ -196,7 +196,7 @@ class BookingConfirmationScreen extends StatelessWidget {
             color: Colors.blue,
           ),
           const SizedBox(width: 20),
-          const Text('Date & Time'),
+          Text('Date & Time', style: nunitoBold),
           const Spacer(),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -252,7 +252,7 @@ class BookingConfirmationScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -266,7 +266,7 @@ class BookingConfirmationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Expanded(
                 flex: 5,
                 child: Text(

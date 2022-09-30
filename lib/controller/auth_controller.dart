@@ -211,7 +211,6 @@ class AuthController extends GetxController {
   _storePatientDetails(Patient patient) async{
     await StorageHelper.setUserId(patient.id);
     await StorageHelper.setUserName(patient.fullName);
-    await StorageHelper.setUserPhotoId(patient.photo);
     await StorageHelper.setUserAge(patient.age);
     await StorageHelper.setUserGender(patient.gender);
     await StorageHelper.setUserPhone(patient.phone);
