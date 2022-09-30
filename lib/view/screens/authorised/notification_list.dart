@@ -1,13 +1,14 @@
-import 'package:careplus_patient/constant/app_localization.dart';
+import 'package:careplus_patient/constant/color_constants.dart';
 import 'package:careplus_patient/constant/dimension_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/notification_controller.dart';
 import 'package:careplus_patient/data/model/notification.dart' as notify;
 import 'package:careplus_patient/helper/responsive_helper.dart';
-import 'package:careplus_patient/view/widgets/custom_app_bar.dart';
+import 'package:careplus_patient/view/screens/authorised/appointment_detail.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NotificationListScreen extends StatefulWidget {
   const NotificationListScreen({Key? key}) : super(key: key);
@@ -17,13 +18,26 @@ class NotificationListScreen extends StatefulWidget {
 }
 
 class _NotificationListScreenState extends State<NotificationListScreen> {
+  NotificationController notificationController = Get.find();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
+  void _onRefresh() async {
+    await notificationController.getAllNotifications();
+    if (mounted) {
+      setState(() {});
+    }
+    _refreshController.refreshCompleted();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    notificationController.getAllNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
-    NotificationController notificationController = Get.find();
-    notificationController.getAllNotifications();
-
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(0),
@@ -34,12 +48,13 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
             ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
-                  CustomAppBar(
-                    context: context,
-                    title: AppLocalization.notification,
-                  ),
+                  _appBar(),
                   Expanded(
-                    child: _notifications(notificationController.notifications),
+                    child: SmartRefresher(
+                      controller: _refreshController,
+                      onRefresh: _onRefresh,
+                      child: _notifications(notificationController.notifications),
+                    ),
                   )
                 ],
               );
@@ -50,9 +65,8 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
   Widget _notifications(List<notify.Notification> notifications) {
     return notifications.isEmpty
         ? SizedBox(
-            height: SizeConfig.blockSizeVertical*30,
-            child: const Center(child: Text('No Notifications'))
-          )
+            height: SizeConfig.blockSizeVertical * 80,
+            child: Center(child: Text('No Notifications', style: nunitoBold)))
         : ListView.separated(
             shrinkWrap: true,
             itemCount: notifications.length,
@@ -68,19 +82,51 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                 tileColor: Colors.grey.shade200,
                 title: Text(
                   notifications[index].title,
-                  style: nunitoBold.copyWith(
-                    fontSize: FONT_SIZE_SMALL,
-                  ),
+                  style: nunitoBold.copyWith(fontSize: FONT_SIZE_SMALL),
                 ),
                 subtitle: Text(
-                  'Appointment # ${notifications[index].data.appointment}',
+                  'Tap to check',
                   style: nunitoMedium.copyWith(
                     color: Colors.black54,
                     fontSize: FONT_SIZE_DEFAULT,
                   ),
                 ),
+                onTap: () {
+                  Get.to(
+                    () => AppointmentDetailScreen(
+                      appointmentId: notifications[index].data.appointment,
+                      status: notifications[index].data.status,
+                    ),
+                  );
+                },
               );
             },
           );
+  }
+
+  _appBar() {
+    return Container(
+      height: SizeConfig.blockSizeVertical * 7.5,
+      alignment: const Alignment(0, 0),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            PRIMARY_COLOR_1,
+            PRIMARY_COLOR_2,
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+      ),
+      child: Center(
+        child: Text(
+          'Notifications',
+          style: nunitoBold.copyWith(
+            color: Colors.white,
+            fontSize: FONT_SIZE_LARGE,
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -50,8 +50,24 @@ class DoctorRepository {
       print('Exception while fetching department doctors');
       return null;
     } else {
-      print('${response.body}--${response.statusCode}');
       return null;
     }
   }
+
+  // search nearby doctors
+  static Future<dynamic> searchNearByDoctors(String doctorName) async {
+    var response = await ApiClient().getData('${ApiConstant.searchNearbyDoctors+StorageHelper.getUserId()}/$doctorName');
+    if (response is http.Response && response.statusCode == 200) {
+      SearchNearByDoctorsData searchNearByDoctorsData = searchNearByDoctorsDataFromJson(response.body);
+      List<Doctor> nearbyDoctors = searchNearByDoctorsData.nearByDoctors;
+      print(nearbyDoctors.length);
+      return nearbyDoctors;
+    } else if (response == "Exception") {
+      print('Exception while fetching department doctors');
+      return null;
+    } else {
+      return null;
+    }
+  }
+
 }

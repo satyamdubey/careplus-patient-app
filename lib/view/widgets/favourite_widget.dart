@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 class ClinicFavouriteWidget extends StatefulWidget {
   final bool isFavourite;
   final String clinicId;
-  final int position;
+  final int? position;
 
 
   const ClinicFavouriteWidget({
     Key? key,
-    required this.position,
+    this.position,
     required this.clinicId,
     required this.isFavourite,
   }) : super(key: key);
@@ -40,8 +40,8 @@ class _ClinicFavouriteWidgetState extends State<ClinicFavouriteWidget> {
           setState(() {
             filled = !filled;
           });
-          if(!filled){
-            favouriteController.removeFromFavouriteList(widget.position);
+          if(!filled && widget.position!=null){
+            favouriteController.removeFromFavouriteList(widget.position!);
           }
         } else {
           EasyLoading.showToast('Some error');

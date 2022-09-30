@@ -3,7 +3,6 @@ import 'package:careplus_patient/constant/dimension_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/user_location_controller.dart';
 import 'package:careplus_patient/view/screens/authorised/google_place.dart';
-import 'package:careplus_patient/view/screens/authorised/select_location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

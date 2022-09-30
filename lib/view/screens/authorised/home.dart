@@ -7,8 +7,8 @@ import 'package:careplus_patient/controller/appointment_controller.dart';
 import 'package:careplus_patient/controller/menu_option_controller.dart';
 import 'package:careplus_patient/controller/promotion_controller.dart';
 import 'package:careplus_patient/helper/responsive_helper.dart';
-import 'package:careplus_patient/view/screens/authorised/clinic_list.dart';
 import 'package:careplus_patient/view/screens/authorised/my_appointments.dart';
+import 'package:careplus_patient/view/screens/authorised/nearby_doctor_list.dart';
 import 'package:careplus_patient/view/screens/authorised/select_category.dart';
 import 'package:careplus_patient/view/widgets/carousel.dart';
 import 'package:careplus_patient/view/widgets/horizontal_item_list.dart';
@@ -345,9 +345,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>Get.to(()=>const ClinicListScreen(
-        title: 'Search near by clinics',
-      )),
+      onTap: ()=>Get.to(()=>const NearbyDoctorListScreen()),
       child: Container(
         width: double.infinity,
         height: 40,

@@ -9,6 +9,7 @@ import 'package:careplus_patient/helper/responsive_helper.dart';
 import 'package:careplus_patient/view/widgets/primary_button.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BookingConfirmationScreen extends StatelessWidget {
   final Appointment appointment;
@@ -75,7 +76,7 @@ class BookingConfirmationScreen extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'ID #${appointment.id}',
+            'ID #${appointment.appointmentId}',
             style: nunitoBold.copyWith(
               color: Colors.white,
               fontSize: FONT_SIZE_MEDIUM,
@@ -171,7 +172,7 @@ class BookingConfirmationScreen extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            '${appointment.slot??'No data'}',
+            '${appointment.slotNo??'No data'}',
             style: nunitoBold.copyWith(
               color: Colors.black54,
               fontSize: FONT_SIZE_SMALL,
@@ -201,7 +202,7 @@ class BookingConfirmationScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                appointment.bookingDate,
+                DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
                 style: nunitoBold.copyWith(
                   color: Colors.grey,
                   fontSize: FONT_SIZE_SMALL,
@@ -232,15 +233,16 @@ class BookingConfirmationScreen extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  'Clinic Name:',
+                  'Clinic Name: ',
                   style: nunitoBold.copyWith(
                     color: Colors.grey,
                     fontSize: FONT_SIZE_SMALL,
                   ),
                 ),
               ),
+              Spacer(),
               Expanded(
-                flex: 6,
+                flex: 5,
                 child: Text(
                   appointment.clinic.name,
                   style: nunitoBold.copyWith(
@@ -257,15 +259,16 @@ class BookingConfirmationScreen extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  'Clinic Address:',
+                  'Clinic Address: ',
                   style: nunitoBold.copyWith(
                     color: Colors.grey,
                     fontSize: FONT_SIZE_SMALL,
                   ),
                 ),
               ),
+              Spacer(),
               Expanded(
-                flex: 6,
+                flex: 5,
                 child: Text(
                   appointment.clinic.address,
                   style: nunitoBold.copyWith(
@@ -282,15 +285,16 @@ class BookingConfirmationScreen extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  'Morning Timing:',
+                  'Morning Timing: ',
                   style: nunitoBold.copyWith(
                     color: Colors.grey,
                     fontSize: FONT_SIZE_SMALL,
                   ),
                 ),
               ),
+              Spacer(),
               Expanded(
-                flex: 6,
+                flex: 5,
                 child: Text(
                   getWorkingTimeOfClinic(clinic)[0],
                   style: nunitoBold.copyWith(
@@ -307,15 +311,16 @@ class BookingConfirmationScreen extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  'Evening Timing:',
+                  'Evening Timing: ',
                   style: nunitoBold.copyWith(
                     color: Colors.grey,
                     fontSize: FONT_SIZE_SMALL,
                   ),
                 ),
               ),
+              Spacer(),
               Expanded(
-                flex: 6,
+                flex: 5,
                 child: Text(
                   getWorkingTimeOfClinic(clinic)[1],
                   style: nunitoBold.copyWith(

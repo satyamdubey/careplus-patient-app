@@ -10,8 +10,6 @@ class ClinicSearchController extends GetxController {
 
   final ClinicController clinicController = Get.find();
 
-  String _searchText = '';
-
   List<Clinic> _searchList = [];
 
   List<Clinic> _searchFromList = [];
@@ -21,7 +19,6 @@ class ClinicSearchController extends GetxController {
   }
 
   searchNearByClinic(String searchText) {
-    _searchText = searchText;
     _searchList.assignAll(
       _searchFromList
           .where((element) => element.name.isCaseInsensitiveContains(searchText))
@@ -36,8 +33,6 @@ class DepartmentSearchController extends GetxController {
 
   final DepartmentController departmentController = Get.find();
 
-  String _searchText = '';
-
   List<Department> _searchList = [];
 
   List<Department> _searchFromList = [];
@@ -47,7 +42,6 @@ class DepartmentSearchController extends GetxController {
   }
 
   searchDepartment(String searchText){
-    _searchText = searchText;
     _searchList.assignAll(
       _searchFromList
           .where((element) => element.name.isCaseInsensitiveContains(searchText))
@@ -59,10 +53,8 @@ class DepartmentSearchController extends GetxController {
 }
 
 
-class DoctorSearchController extends GetxController {
+class DepartmentDoctorSearchController extends GetxController {
   final DoctorController doctorController = Get.find();
-
-  String _searchText = '';
 
   List<Doctor> _searchList = [];
 
@@ -74,13 +66,21 @@ class DoctorSearchController extends GetxController {
   }
 
   searchDepartmentDoctor(String searchText){
-    _searchText = searchText;
     _searchList.assignAll(
       _searchFromList
           .where((element) => element.fullName.isCaseInsensitiveContains(searchText))
           .toList(),
     );
     doctorController.departmentDoctorsToClient=_searchList;
+  }
+}
+
+
+class NearByDoctorSearchController extends GetxController {
+  final DoctorController doctorController = Get.find();
+
+  searchNearByDoctor(String searchText){
+    doctorController.searchNearByDoctorsFromRepository(searchText);
   }
 }
 

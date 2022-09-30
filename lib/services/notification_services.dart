@@ -1,10 +1,7 @@
 import 'dart:io';
 
-import 'package:careplus_patient/constant/color_constants.dart';
-import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
+import 'package:get/get.dart';
 
 class PushNotificationService {
   static final PushNotificationService _pushNotificationService =
@@ -19,7 +16,7 @@ class PushNotificationService {
   late final String? token;
 
   // initialisation of push notification service
-  Future<void> init() async {
+  Future<void> initialize() async {
     // getting firebase messaging instance
     FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
@@ -76,19 +73,14 @@ class PushNotificationService {
     bool appTerminated = false,
   }) {
     if (appForeground) {
-      _showPushNotification(message);
-    }
-    else if (appBackground) {}
-    else if (appTerminated) {}
+      Get.showSnackbar(
+        GetSnackBar(
+          snackPosition: SnackPosition.TOP,
+          message: message.notification!.title!,
+          duration: const Duration(seconds: 5),
+        ),
+      );
+    } else if (appBackground) {
+    } else if (appTerminated) {}
   }
-}
-
-_showPushNotification(RemoteMessage message) {
-  return showSimpleNotification(
-    Text(message.notification?.title??'Notification From Care Plus', style: nunitoBold),
-    background: PRIMARY_COLOR_2,
-    leading: const Icon(Icons.notifications, color: Colors.white),
-    subtitle: Text(message.notification!.body!),
-    duration: const Duration(seconds: 5),
-  );
 }

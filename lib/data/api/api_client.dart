@@ -27,6 +27,7 @@ class ApiClient {
 
   Future<dynamic> getData(String path) async {
     String getUrl = ApiConstant.baseUrl + path;
+    print(getUrl);
     try {
       http.Response response = await http
           .get(Uri.parse(getUrl), headers: _mainHeaders)

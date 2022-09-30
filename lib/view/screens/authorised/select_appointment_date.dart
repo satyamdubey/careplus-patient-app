@@ -65,7 +65,8 @@ class _SelectAppointmentDateScreenState extends State<SelectAppointmentDateScree
               }
               if (_availableAppointmentDates.contains(_selectedDay)) {
                 AppointmentDate appointmentData = _appointmentDataList.singleWhere(
-                        (element) => DateFormat('yyyy-MM-dd').parse(element.date).day == _selectedDay!.day);
+                        (element) => DateFormat('yyyy-MM-dd').parse(element.date).day == _selectedDay!.day &&
+                            DateFormat('yyyy-MM-dd').parse(element.date).month == _selectedDay!.month);
                 appointmentController.selectAppointmentDate(DateFormat("yyyy-M-dd").format(_selectedDay!));
                 Get.to(()=>DoctorAppointmentScreen(
                   appointmentData: appointmentData,
@@ -142,7 +143,8 @@ class _SelectAppointmentDateScreenState extends State<SelectAppointmentDateScree
         },
         calendarBuilders: CalendarBuilders(markerBuilder: (context, date, _) {
           return _appointmentDataList.any((element) {
-            if (DateFormat('yyyy-MM-dd').parse(element.date).day == date.day) {
+            if (DateFormat('yyyy-MM-dd').parse(element.date).day == date.day &&
+                DateFormat('yyyy-MM-dd').parse(element.date).month == date.month) {
               bool available = !(element.morning.close && element.evening.close);
               if(available)_availableAppointmentDates.add(date);
               return available;

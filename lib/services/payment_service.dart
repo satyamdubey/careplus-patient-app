@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:careplus_patient/constant/api_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
 
@@ -16,18 +17,17 @@ class PaymentService {
     try {
       http.Response response = await http
           .post(
-            Uri.parse('https://care-plus.herokuapp.com/api/v1/patient/payment'),
+            Uri.parse(ApiConstant.baseUrl+ApiConstant.getTransactionToken),
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             body: initiateTransactionData,
-          )
-          .timeout(const Duration(seconds: 30));
+          ).timeout(const Duration(seconds: 30));
       return response;
     } on Exception catch (_) {
       return null;
     }
   }
 
-  static Future<dynamic> initiateTransaction(orderId, txnToken, amount) async {
+  static Future<dynamic> startTransaction(orderId, txnToken, amount) async {
     try {
       Map<dynamic, dynamic>? response = await AllInOneSdk.startTransaction(
       PAYTM_MID,

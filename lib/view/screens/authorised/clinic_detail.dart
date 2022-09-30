@@ -12,6 +12,7 @@ import 'package:careplus_patient/view/widgets/horizontal_item_list.dart';
 import 'package:careplus_patient/view/widgets/navigate_buttons.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'select_appointment_date.dart';
@@ -44,11 +45,12 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
     String _endTime = '';
     String s_t_a = 'AM';
     String e_t_a = 'AM';
+
     if (startTime>=12) {
       s_t_a = "PM";
-      startTime = startTime == 12 ? 12 : startTime - 12;
+      startTime = startTime-12==0?12:startTime-12;
     }
-    if (startTime>=10 && startTime<12) {
+    if (startTime>=10) {
       _startTime = '$startTime:00';
     }
     if(startTime<10){
@@ -56,9 +58,9 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
     }
     if (endTime>=12) {
       e_t_a = "PM";
-      endTime = endTime == 12 ? 12 : endTime - 12;
+      endTime = endTime-12==0?12:endTime-12;
     }
-    if (endTime>=10 && endTime<12) {
+    if (endTime>=10) {
       _endTime = '$endTime:00';
     }
     if(endTime<10){
@@ -194,7 +196,6 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
             button1Style: _selectedSlot == 0
                 ? ActionRowButtonStyle.primary
                 : ActionRowButtonStyle.secondary,
-
             button2Name: "Evening",
             onTapButton2: () {
               setState(() {
@@ -221,14 +222,17 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
           button2Style: ActionRowButtonStyle.secondary,
           onTapButton2: () async {
             if (appointmentController.selectedDoctor != null) {
-              await appointmentController
-                  .getAvailableAppointmentDates()
-                  .then((value) => value
-                      ? Get.to(() => const SelectAppointmentDateScreen())
-                      : Get.showSnackbar(const GetSnackBar(
-                          message: "No appointment dates available",
-                          duration: Duration(seconds: 2),
-                        )));
+              EasyLoading.show(status: 'checking appointment availability');
+              bool response = await appointmentController.getAvailableAppointmentDates();
+              EasyLoading.dismiss();
+              if(response){
+                Get.to(() => const SelectAppointmentDateScreen());
+              }else{
+                Get.showSnackbar(const GetSnackBar(
+                  message: "No appointment dates available",
+                  duration: Duration(seconds: 2),
+                ));
+              }
             } else {
               Get.showSnackbar(const GetSnackBar(
                 message: "Select Any Doctor",

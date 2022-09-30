@@ -5,6 +5,7 @@ import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/appointment_controller.dart';
 import 'package:careplus_patient/data/model/doctor.dart';
 import 'package:careplus_patient/helper/responsive_helper.dart';
+import 'package:careplus_patient/view/screens/authorised/doctor_reviews.dart';
 import 'package:careplus_patient/view/widgets/custom_text_section.dart';
 import 'package:careplus_patient/view/widgets/doctor_profile.dart';
 import 'package:careplus_patient/view/widgets/horizontal_item_list.dart';
@@ -12,6 +13,7 @@ import 'package:careplus_patient/view/widgets/navigate_buttons.dart';
 import 'package:careplus_patient/view/widgets/rating_widget.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'select_appointment_date.dart';
@@ -110,11 +112,14 @@ class DoctorDetailScreen extends StatelessWidget {
         const Spacer(flex: 2),
         Expanded(
           flex: 4,
-          child: RatingWidget(
-            averageRating: doctor.averageRating,
-            reviewsCount: doctor.reviewsCount,
-            iconSize: ICON_SIZE_LARGE,
-            textFontSize: FONT_SIZE_DEFAULT,
+          child: GestureDetector(
+            onTap: ()=>Get.to(()=>DoctorReviewsScreen(doctor: doctor)),
+            child: RatingWidget(
+              averageRating: doctor.averageRating,
+              reviewsCount: doctor.reviewsCount,
+              iconSize: ICON_SIZE_LARGE,
+              textFontSize: FONT_SIZE_DEFAULT,
+            ),
           ),
         ),
       ],
@@ -130,7 +135,17 @@ class DoctorDetailScreen extends StatelessWidget {
           button2Style: ActionRowButtonStyle.secondary,
           onTapButton2: () async {
             if (appointmentController.selectedClinic != null) {
-              _checkAppointmentAvailability(appointmentController);
+              EasyLoading.show(status: 'checking appointment availability');
+              bool response = await appointmentController.getAvailableAppointmentDates();
+              EasyLoading.dismiss();
+              if(response){
+                Get.to(() => const SelectAppointmentDateScreen());
+              }else{
+                Get.showSnackbar(const GetSnackBar(
+                  message: "No appointment dates available",
+                  duration: Duration(seconds: 2),
+                ));
+              }
             } else {
               Get.showSnackbar(const GetSnackBar(
                 message: "Select Any Clinic",
@@ -143,18 +158,6 @@ class DoctorDetailScreen extends StatelessWidget {
       ],
     );
   }
-
-  Future<void> _checkAppointmentAvailability(appointmentController)async{
-    await appointmentController
-        .getAvailableAppointmentDates()
-        .then((available) => available
-        ? Get.to(() => const SelectAppointmentDateScreen())
-        : Get.showSnackbar(const GetSnackBar(
-      message: "No appointment dates available",
-      duration: Duration(seconds: 2),
-    )));
-  }
-
 }
 
 class ClinicsAvailable extends StatelessWidget {

@@ -5,7 +5,6 @@ import 'package:careplus_patient/data/api/api_client.dart';
 import 'package:careplus_patient/data/model/appointment.dart';
 import 'package:careplus_patient/data/model/appointment_availability.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -13,6 +12,7 @@ class AppointmentRepository {
 
   static Future<dynamic> checkAppointmentAvailability(
       String doctorId, String clinicId) async {
+    print(jsonEncode({"doctorId": doctorId, "clinicId": clinicId}));
     var response = await ApiClient().postData(
       ApiConstant.checkAppointmentAvailability,
       jsonEncode({"doctorId": doctorId, "clinicId": clinicId}),
@@ -99,8 +99,7 @@ class AppointmentRepository {
 
   static Future<dynamic> cancelAppointment(String appointmentId) async {
     var response = await ApiClient().postData(
-      ApiConstant.cancelAppointment,
-      '{"appointmentId":"$appointmentId"}',
+      ApiConstant.cancelAppointment, '{"appointmentId":"$appointmentId"}',
     );
     if (response is http.Response && response.statusCode == 200) {
       return true;

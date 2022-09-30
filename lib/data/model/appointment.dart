@@ -21,6 +21,7 @@ class CreateAppointment {
     this.patientId,
     this.familyMemberId,
     this.bookingShift,
+    this.bookingShiftTime,
     this.bookingDate,
   });
 
@@ -29,7 +30,9 @@ class CreateAppointment {
   dynamic patientId;
   dynamic familyMemberId;
   dynamic bookingShift;
+  dynamic bookingShiftTime;
   dynamic bookingDate;
+
 
   Map<String, dynamic> selfAppointmentToJson() => {
     "doctorId": doctorId,
@@ -37,15 +40,17 @@ class CreateAppointment {
     "patientId": patientId,
     "bookingSift": bookingShift,
     "bookingDate": bookingDate,
+    "doctorTime":bookingShiftTime,
   };
 
   Map<String, dynamic> familyMemberAppointmentToJson() => {
     "doctorId": doctorId,
     "clinicId": clinicId,
     "patientId": patientId,
+    "familyMemberId":familyMemberId,
     "bookingSift": bookingShift,
     "bookingDate": bookingDate,
-    "familyMemberId":familyMemberId,
+    "doctorTime":bookingShiftTime,
   };
 }
 
@@ -94,6 +99,7 @@ class AppointmentData {
 class Appointment {
   Appointment({
     this.id,
+    this.appointmentId,
     this.doctor,
     this.clinic,
     this.patient,
@@ -101,8 +107,9 @@ class Appointment {
     this.bookingFor,
     this.bookingDate,
     this.bookingSift,
+    this.doctorTime,
     this.status,
-    this.slot,
+    this.slotNo,
     this.completed,
     this.meetHours,
     this.meetMinutes,
@@ -112,6 +119,7 @@ class Appointment {
   });
 
   dynamic id;
+  dynamic appointmentId;
   dynamic doctor;
   dynamic clinic;
   dynamic patient;
@@ -119,8 +127,9 @@ class Appointment {
   dynamic bookingFor;
   dynamic bookingDate;
   dynamic bookingSift;
+  dynamic doctorTime;
   dynamic status;
-  dynamic slot;
+  dynamic slotNo;
   dynamic completed;
   dynamic meetHours;
   dynamic meetMinutes;
@@ -130,6 +139,7 @@ class Appointment {
 
   factory Appointment.fromJson1(Map<String, dynamic> json) => Appointment(
     id: json["_id"],
+    appointmentId: json["appointmentId"],
     doctor: json["doctor"],
     clinic: json["clinic"],
     patient: json["patient"],
@@ -137,8 +147,9 @@ class Appointment {
     bookingFor: json["bookingFor"],
     bookingDate: json["bookingDate"],
     bookingSift: json["bookingSift"],
+    doctorTime: json["doctorTime"],
     status: json["status"],
-    slot: json["slot"],
+    slotNo: json["slotNo"],
     completed: json["completed"],
     meetHours: json["meetHours"],
     meetMinutes: json["meetMinutes"],
@@ -149,6 +160,7 @@ class Appointment {
 
   factory Appointment.fromJson2(Map<String, dynamic> json) => Appointment(
       id: json["_id"],
+      appointmentId: json["appointmentId"],
       doctor: Doctor.fromJson(json["doctor"]),
       clinic: Clinic.fromJson2(json["clinic"]),
       patient: json["patient"],
@@ -156,8 +168,9 @@ class Appointment {
       bookingFor: json["bookingFor"],
       bookingDate: json["bookingDate"],
       bookingSift: json["bookingSift"],
+      doctorTime: json["doctorTime"],
       status: json["status"],
-      slot: json["slot"],
+      slotNo: json["slotNo"],
       completed: json["completed"],
       meetHours: json["meetHours"],
       meetMinutes: json["meetMinutes"],

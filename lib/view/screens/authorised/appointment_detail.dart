@@ -77,21 +77,8 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                       child: Column(
                         children: [
                           CustomAppBar(context: context, title: 'Appointment Detail'),
-                          const SizedBox(height: 20),
+                           const SizedBox(height: 20),
                           _appointmentDetails(),
-                          const SizedBox(height: 20),
-                          PrimaryButton(
-                            height: 40,
-                            width: 120,
-                            radius: 16,
-                            text: widget.status=="booked"
-                                ?"Cancel"
-                                :"Back",
-                            onTap: widget.status=="booked"
-                                ? _cancelAppointment
-                                : () => Navigator.of(context).pop(),
-                          ),
-                          const SizedBox(height: 10),
                         ],
                       ),
                     );
@@ -99,6 +86,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       ),
     );
   }
+
 
   Widget _appointmentDetails() {
     return Padding(
@@ -120,11 +108,11 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           const SizedBox(height: 15),
           _bookingStatus(),
           const SizedBox(height: 15),
-          _appointmentDateTime(),
-          const SizedBox(height: 15),
-          _slot(),
+          _appointmentDate(),
           const SizedBox(height: 15),
           _meetupTime(),
+          const SizedBox(height: 15),
+          _slot(),
           const SizedBox(height: 30),
           Text(
             'Clinic Details',
@@ -139,6 +127,9 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const SizedBox(height: 10),
           _transactionDetails(),
+          const SizedBox(height: 30),
+          Center(child: _actionButton()),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -180,7 +171,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
         ),
         const Spacer(),
         Visibility(
-          visible: widget.status=="completed" || appointment.completed,
+          visible: appointment.completed || widget.status=="completed",
           child: SecondaryButton(
             height: 35,
             width: 90,
@@ -217,7 +208,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const Spacer(),
           Text(
-            appointment.id,
+            appointment.appointmentId,
             style: nunitoBold.copyWith(
               color: Colors.black54,
               fontSize: FONT_SIZE_SMALL,
@@ -249,7 +240,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const Spacer(),
           Text(
-            appointment.bookingFor,
+            appointment.familyMember!=null?appointment.familyMember.name:appointment.bookingFor,
             style: nunitoBold.copyWith(
               color: Colors.black54,
               fontSize: FONT_SIZE_DEFAULT,
@@ -292,7 +283,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     );
   }
 
-  Widget _appointmentDateTime() {
+  Widget _appointmentDate() {
     return Container(
       height: 45,
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -308,61 +299,29 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const SizedBox(width: 10),
           Text(
-            'Appointment Date & Time',
+            'Appointment Date\n& Time',
             style: nunitoBold.copyWith(fontSize: FONT_SIZE_SMALL),
           ),
           const Spacer(),
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                appointmentController.appointmentDetail.bookingDate,
+                DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
                 style: nunitoBold.copyWith(
                   color: Colors.black54,
                   fontSize: FONT_SIZE_SMALL,
                 ),
               ),
               Text(
-                _doctorTime(appointment.meetHours, appointment.meetMinutes),
+                appointment.doctorTime??'No data',
                 style: nunitoBold.copyWith(
                   color: Colors.black54,
-                  fontSize: FONT_SIZE_DEFAULT,
+                  fontSize: FONT_SIZE_SMALL,
                 ),
               ),
             ],
           )
-        ],
-      ),
-    );
-  }
-
-  Widget _slot() {
-    return Container(
-      height: 45,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.book_sharp,
-            color: Colors.blue,
-          ),
-          const SizedBox(width: 10),
-          Text(
-            'Slot number',
-            style: nunitoBold.copyWith(fontSize: FONT_SIZE_SMALL),
-          ),
-          const Spacer(),
-          Text(
-            '${appointment.slot??'No data'}',
-            style: nunitoBold.copyWith(
-              color: Colors.black54,
-              fontSize: FONT_SIZE_SMALL,
-            ),
-          ),
         ],
       ),
     );
@@ -390,7 +349,39 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const Spacer(),
           Text(
-            'No data',
+            _doctorTime(appointment.meetHours, appointment.meetMinutes),
+            style: nunitoBold.copyWith(
+              color: Colors.black54,
+              fontSize: FONT_SIZE_DEFAULT,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _slot() {
+    return Container(
+      height: 45,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.book_sharp,
+            color: Colors.blue,
+          ),
+          const SizedBox(width: 10),
+          Text(
+            'Slot number',
+            style: nunitoBold.copyWith(fontSize: FONT_SIZE_SMALL),
+          ),
+          const Spacer(),
+          Text(
+            '${appointment.slotNo??'No data'}',
             style: nunitoBold.copyWith(
               color: Colors.black54,
               fontSize: FONT_SIZE_SMALL,
@@ -477,7 +468,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                 color: SECONDARY_COLOR,
                 size: 20,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 flex: 4,
                 child: Text(
@@ -602,6 +593,21 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     );
   }
 
+
+  Widget _actionButton() {
+    return PrimaryButton(
+      height: 40,
+      width: 120,
+      radius: 16,
+      text: appointment.completed || widget.status=="canceled"
+          ? "Back"
+          : "Cancel",
+      onTap: appointment.completed || widget.status=="canceled"
+          ? () => Navigator.of(context).pop()
+          : _cancelAppointment
+    );
+  }
+
   List<String> getWorkingTimeOfClinic(Clinic clinic) {
     int day = DateTime.now().weekday;
     String morningTime = '';
@@ -614,40 +620,40 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             clinic.clinicTiming.mon.eveningTime.till);
         break;
       case 2:
-        morningTime = _clinicTime(clinic.clinicTiming.mon.morningTime.from,
-            clinic.clinicTiming.mon.morningTime.till);
-        eveningTime = _clinicTime(clinic.clinicTiming.mon.eveningTime.from,
-            clinic.clinicTiming.mon.eveningTime.till);
+        morningTime = _clinicTime(clinic.clinicTiming.tue.morningTime.from,
+            clinic.clinicTiming.tue.morningTime.till);
+        eveningTime = _clinicTime(clinic.clinicTiming.tue.eveningTime.from,
+            clinic.clinicTiming.tue.eveningTime.till);
         break;
       case 3:
-        morningTime = _clinicTime(clinic.clinicTiming.mon.morningTime.from,
-            clinic.clinicTiming.mon.morningTime.till);
-        eveningTime = _clinicTime(clinic.clinicTiming.mon.eveningTime.from,
-            clinic.clinicTiming.mon.eveningTime.till);
+        morningTime = _clinicTime(clinic.clinicTiming.wed.morningTime.from,
+            clinic.clinicTiming.wed.morningTime.till);
+        eveningTime = _clinicTime(clinic.clinicTiming.wed.eveningTime.from,
+            clinic.clinicTiming.wed.eveningTime.till);
         break;
       case 4:
-        morningTime = _clinicTime(clinic.clinicTiming.mon.morningTime.from,
-            clinic.clinicTiming.mon.morningTime.till);
-        eveningTime = _clinicTime(clinic.clinicTiming.mon.eveningTime.from,
-            clinic.clinicTiming.mon.eveningTime.till);
+        morningTime = _clinicTime(clinic.clinicTiming.thr.morningTime.from,
+            clinic.clinicTiming.thr.morningTime.till);
+        eveningTime = _clinicTime(clinic.clinicTiming.thr.eveningTime.from,
+            clinic.clinicTiming.thr.eveningTime.till);
         break;
       case 5:
-        morningTime = _clinicTime(clinic.clinicTiming.mon.morningTime.from,
-            clinic.clinicTiming.mon.morningTime.till);
-        eveningTime = _clinicTime(clinic.clinicTiming.mon.eveningTime.from,
-            clinic.clinicTiming.mon.eveningTime.till);
+        morningTime = _clinicTime(clinic.clinicTiming.fri.morningTime.from,
+            clinic.clinicTiming.fri.morningTime.till);
+        eveningTime = _clinicTime(clinic.clinicTiming.fri.eveningTime.from,
+            clinic.clinicTiming.fri.eveningTime.till);
         break;
       case 6:
-        morningTime = _clinicTime(clinic.clinicTiming.mon.morningTime.from,
-            clinic.clinicTiming.mon.morningTime.till);
-        eveningTime = _clinicTime(clinic.clinicTiming.mon.eveningTime.from,
-            clinic.clinicTiming.mon.eveningTime.till);
+        morningTime = _clinicTime(clinic.clinicTiming.sat.morningTime.from,
+            clinic.clinicTiming.sat.morningTime.till);
+        eveningTime = _clinicTime(clinic.clinicTiming.sat.eveningTime.from,
+            clinic.clinicTiming.sat.eveningTime.till);
         break;
       case 7:
-        morningTime = _clinicTime(clinic.clinicTiming.mon.morningTime.from,
-            clinic.clinicTiming.mon.morningTime.till);
-        eveningTime = _clinicTime(clinic.clinicTiming.mon.eveningTime.from,
-            clinic.clinicTiming.mon.eveningTime.till);
+        morningTime = _clinicTime(clinic.clinicTiming.sun.morningTime.from,
+            clinic.clinicTiming.sun.morningTime.till);
+        eveningTime = _clinicTime(clinic.clinicTiming.sun.eveningTime.from,
+            clinic.clinicTiming.sun.eveningTime.till);
         break;
       default:
         break;
@@ -661,11 +667,12 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     String _endTime = '';
     String s_t_a = 'AM';
     String e_t_a = 'AM';
+
     if (startTime>=12) {
       s_t_a = "PM";
-      startTime = startTime == 12 ? 12 : startTime - 12;
+      startTime = startTime-12==0?12:startTime-12;
     }
-    if (startTime>=10 && startTime<12) {
+    if (startTime>=10) {
       _startTime = '$startTime:00';
     }
     if(startTime<10){
@@ -673,9 +680,9 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     }
     if (endTime>=12) {
       e_t_a = "PM";
-      endTime = endTime == 12 ? 12 : endTime - 12;
+      endTime = endTime-12==0?12:endTime-12;
     }
-    if (endTime>=10 && endTime<12) {
+    if (endTime>=10) {
       _endTime = '$endTime:00';
     }
     if(endTime<10){

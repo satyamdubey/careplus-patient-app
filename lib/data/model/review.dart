@@ -141,8 +141,8 @@ class Review{
   Patient patient;
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
-    rating: json["rating"],
-    review: json["review"],
+    rating: json["rating"]??0,
+    review: json["review"]??'',
     patient: Patient.fromJson(json["patient"]),
   );
 }

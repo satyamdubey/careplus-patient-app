@@ -7,9 +7,8 @@ import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/department_controller.dart';
 import 'package:careplus_patient/controller/search_controller.dart';
 import 'package:careplus_patient/data/model/department.dart';
-import 'package:careplus_patient/view/screens/authorised/doctor_list.dart';
+import 'package:careplus_patient/view/screens/authorised/department_doctor_list.dart';
 import 'package:careplus_patient/view/widgets/custom_app_bar.dart';
-import 'package:careplus_patient/view/widgets/search_bar.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -100,7 +99,7 @@ class DepartmentLayout extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () => Get.to(() => DepartmentDoctorList(
+          onTap: () => Get.to(() => DepartmentDoctorListScreen(
                 departmentName: department.name,
                 departmentId: department.id,
               )),

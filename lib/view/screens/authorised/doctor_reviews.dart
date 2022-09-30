@@ -1,7 +1,6 @@
 import 'package:careplus_patient/constant/dimension_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/review_controller.dart';
-import 'package:careplus_patient/data/model/clinic.dart';
 import 'package:careplus_patient/data/model/doctor.dart';
 import 'package:careplus_patient/data/model/review.dart';
 import 'package:careplus_patient/helper/responsive_helper.dart';
@@ -78,7 +77,7 @@ class _DoctorReviewsScreenState extends State<DoctorReviewsScreen> {
           Row(
             children: [
               RatingStar(
-                rating: widget.doctor.averageRating,
+                rating: widget.doctor.averageRating.ceil(),
                 iconSize: ICON_SIZE_LARGE,
               ),
               Text(

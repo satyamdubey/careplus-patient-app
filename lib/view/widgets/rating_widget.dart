@@ -32,7 +32,7 @@ class RatingWidget extends StatelessWidget {
           size: ICON_SIZE_SMALL,
         ),
         Text(
-          '${averageRating.toDouble()} ($reviewsCount reviews)',
+          '${averageRating.ceilToDouble()} ($reviewsCount reviews)',
           style: rubikRegular.copyWith(
             fontSize: textFontSize,
             color: textColor,

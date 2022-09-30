@@ -4,8 +4,8 @@ import 'package:careplus_patient/constant/api_constants.dart';
 import 'package:careplus_patient/data/api/api_client.dart';
 import 'package:careplus_patient/data/model/patient.dart';
 import 'package:careplus_patient/data/model/signup.dart';
-import 'package:careplus_patient/helper/notification_helper.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
+import 'package:careplus_patient/services/notification_services.dart';
 import 'package:careplus_patient/view/screens/authorised/dashboard.dart';
 import 'package:careplus_patient/view/screens/unauthorised/otp_verify.dart';
 import 'package:careplus_patient/view/screens/unauthorised/register_user.dart';
@@ -160,7 +160,7 @@ class AuthController extends GetxController {
     _showAuthStatus();
     var response = await ApiClient().postData(
       ApiConstant.login,
-      jsonEncode({"authToken":authToken, "notificationsToken":PushNotificationService.token})
+      jsonEncode({"authToken":authToken, "notificationsToken":PushNotificationService().token})
     );
 
     if (response is http.Response && response.statusCode == 200) {
@@ -233,11 +233,11 @@ class AuthController extends GetxController {
         );
         break;
 
-      case AuthStatus.autoDetectingOtp:
+      case AuthStatus.verifying:
         EasyLoading.show(status: _statusMessage);
         break;
 
-      case AuthStatus.verifying:
+      case AuthStatus.autoDetectingOtp:
         EasyLoading.show(status: _statusMessage);
         break;
 

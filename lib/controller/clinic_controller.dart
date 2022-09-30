@@ -56,7 +56,7 @@ class ClinicController extends GetxController {
 
   // controller variables for clinic list screen
 
-  int _page = 0;
+  int _page = 1;
   int _limit = 10;
   final int _incrementBy = 10;
 
@@ -77,9 +77,8 @@ class ClinicController extends GetxController {
     }
   }
 
-
   initClinicListScreen(){
-    _page=0;
+    _page=1;
     _limit=10;
     _nearByClinicsForListScreenFromServer.clear();
     _nearByClinicsForListScreenToClient.clear();

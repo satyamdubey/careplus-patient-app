@@ -31,7 +31,8 @@ class ControllerBinding extends Bindings{
     Get.lazyPut(() => MyAppointmentsController(), fenix: true);
     Get.lazyPut(() => ClinicSearchController(), fenix: true);
     Get.lazyPut(() => DepartmentSearchController(), fenix: true);
-    Get.lazyPut(() => DoctorSearchController(), fenix: true);
+    Get.lazyPut(() => DepartmentDoctorSearchController(), fenix: true);
+    Get.lazyPut(() => NearByDoctorSearchController(), fenix: true);
     Get.lazyPut(() => ReviewController(), fenix: true);
     Get.lazyPut(() => FavouriteController(), fenix: true);
     Get.lazyPut(() => UserLocationController(), fenix: true);

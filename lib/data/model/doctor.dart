@@ -3,6 +3,7 @@ import 'dart:convert';
 
 TopDoctorsData topDoctorsFromJson(String str) => TopDoctorsData.fromJson(json.decode(str));
 DepartmentDoctorsData departmentDoctorsFromJson(String str) => DepartmentDoctorsData.fromJson(json.decode(str));
+SearchNearByDoctorsData searchNearByDoctorsDataFromJson(String str) => SearchNearByDoctorsData.fromJson(json.decode(str));
 DoctorData doctorFromJson(String str) => DoctorData.fromJson(json.decode(str));
 
 
@@ -39,6 +40,26 @@ class DepartmentDoctorsData {
     status: json["status"],
     message: json["message"],
     departmentDoctors: List<Doctor>.from(json["doctors"].map((x) => Doctor.fromJson(x))),
+  );
+}
+
+
+
+class SearchNearByDoctorsData {
+  SearchNearByDoctorsData({
+    required this.status,
+    required this.message,
+    required this.nearByDoctors,
+  });
+
+  String status;
+  String message;
+  List<Doctor> nearByDoctors;
+
+  factory SearchNearByDoctorsData.fromJson(Map<String, dynamic> json) => SearchNearByDoctorsData(
+    status: json["status"],
+    message: json["message"],
+    nearByDoctors: List<Doctor>.from(json["doctors"].map((x) => Doctor.fromJson(x))),
   );
 }
 

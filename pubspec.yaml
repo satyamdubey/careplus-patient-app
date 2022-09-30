@@ -33,7 +33,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   paytm_allinonesdk: ^1.1.8
   easy_localization: ^3.0.1
-  overlay_support: ^2.0.1
   carousel_slider: ^4.1.1
   curved_navigation_bar: ^1.0.3
   table_calendar: ^3.0.6
@@ -48,6 +47,8 @@ dependencies:
   flutter_easyloading: ^3.0.5
   auto_size_text: ^3.0.0
   shimmer: ^2.0.0
+  webview_flutter: ^3.0.4
+  share_plus: ^4.4.0
   shared_preferences: ^2.0.15
   location: ^4.2.0
   geocoding: ^2.0.5

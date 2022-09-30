@@ -5,9 +5,9 @@ import 'package:careplus_patient/constant/image_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/auth_controller.dart';
 import 'package:careplus_patient/data/model/signup.dart';
-import 'package:careplus_patient/helper/notification_helper.dart';
 import 'package:careplus_patient/helper/responsive_helper.dart';
 import 'package:careplus_patient/services/location_service.dart';
+import 'package:careplus_patient/services/notification_services.dart';
 import 'package:careplus_patient/view/widgets/custom_check_box.dart';
 import 'package:careplus_patient/view/widgets/custom_icon.dart';
 import 'package:careplus_patient/view/widgets/custom_text_field.dart';
@@ -207,7 +207,7 @@ class _RegisterUserState extends State<RegisterUser> {
         authToken: authController.firebaseUserTokenId,
         latitude: LocationService.locationData.latitude??0,
         longitude: LocationService.locationData.longitude??0,
-        notificationsToken: PushNotificationService.token??''
+        notificationsToken: PushNotificationService().token??''
       );
     } else {
       Get.showSnackbar(const GetSnackBar(

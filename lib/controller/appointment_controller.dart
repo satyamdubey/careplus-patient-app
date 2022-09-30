@@ -2,7 +2,6 @@ import 'package:careplus_patient/data/model/appointment.dart';
 import 'package:careplus_patient/data/model/appointment_availability.dart';
 import 'package:careplus_patient/data/repository/appointment_repository.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class AppointmentController extends GetxController {
@@ -32,6 +31,15 @@ class AppointmentController extends GetxController {
 
   void selectAppointmentShift(dynamic value) {
     _selectedAppointmentShift = value;
+  }
+
+
+  dynamic _selectedAppointmentShiftTime;
+
+  dynamic get selectedAppointmentShiftTime => _selectedAppointmentShiftTime;
+
+  void selectAppointmentShiftTime(dynamic value) {
+    _selectedAppointmentShiftTime = value;
   }
 
 
@@ -82,15 +90,13 @@ class AppointmentController extends GetxController {
 
 
   Future<bool> getAvailableAppointmentDates() async {
-    EasyLoading.show(status: 'checking appointment availability');
     var response = await AppointmentRepository.checkAppointmentAvailability(_selectedDoctor.id, _selectedClinic.id);
-    EasyLoading.dismiss();
     if (response != null) {
       _availableAppointmentDates.assignAll(response);
       update();
       return true;
     } else {
-       update();
+      update();
       return false;
     }
   }
@@ -102,6 +108,7 @@ class AppointmentController extends GetxController {
       patientId: StorageHelper.getUserId(),
       bookingDate: _selectedAppointmentDate,
       bookingShift: _selectedAppointmentShift,
+      bookingShiftTime: _selectedAppointmentShiftTime,
     );
     var response = await AppointmentRepository.createAppointmentForSelf(createAppointment);
     if(response!=null){
@@ -120,6 +127,7 @@ class AppointmentController extends GetxController {
       patientId: StorageHelper.getUserId(),
       bookingDate: _selectedAppointmentDate,
       bookingShift: _selectedAppointmentShift,
+      bookingShiftTime: _selectedAppointmentShiftTime,
     );
     var response = await AppointmentRepository.createAppointmentForFamilyMember(createAppointment);
     if(response!=null){
@@ -131,9 +139,7 @@ class AppointmentController extends GetxController {
   }
 
   Future<void> getAppointmentDetail(String appointmentId) async {
-    if(_isAppointmentDetailLoaded){
-      _isAppointmentDetailLoaded=false;
-    }
+    _isAppointmentDetailLoaded=false;
     var response = await AppointmentRepository.getAppointmentDetail(appointmentId);
     if (response != null) {
       _appointmentDetail = response;
@@ -143,9 +149,7 @@ class AppointmentController extends GetxController {
   }
 
   Future<void> getAllAppointments() async {
-    if(_isAllAppointmentsLoaded){
-      _isAllAppointmentsLoaded=false;
-    }
+    _isAllAppointmentsLoaded=false;
     var response = await AppointmentRepository.getAllAppointments();
     if (response != null) {
       _allAppointmentList.assignAll(response);
@@ -155,9 +159,7 @@ class AppointmentController extends GetxController {
   }
 
   Future<void> getUpcomingAppointments() async {
-    if(_isUpcomingAppointmentsLoaded){
-      _isUpcomingAppointmentsLoaded=false;
-    }
+    _isUpcomingAppointmentsLoaded=false;
     var response = await AppointmentRepository.getUpcomingAppointments();
     if (response != null) {
       _upcomingAppointmentList.assignAll(response);

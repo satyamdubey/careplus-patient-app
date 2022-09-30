@@ -13,6 +13,7 @@ import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -120,18 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         horizontal: HORIZONTAL_PADDING_LARGE,
       ),
       children: [
-        settingWidget(
-          Icons.people_alt_outlined,
-          'Become a pro member',
-          Icon(
-            Icons.arrow_forward_ios,
-            size: ICON_SIZE_DEFAULT,
-            color: ARROW_ICON_COLOR,
-          ),
-          () {},
-        ),
-        SizedBox(height: 25),
-        settingWidget(
+        /*settingWidget(
           Icons.notifications_outlined,
           'Notification',
           SizedBox(
@@ -154,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           () {},
         ),
-        const SizedBox(height: 25),
+        const SizedBox(height: 25),*/
         settingWidget(
           Icons.person_outline,
           'Invite a friend',
@@ -163,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             size: ICON_SIZE_DEFAULT,
             color: ARROW_ICON_COLOR,
           ),
-          () {},
+          () => Share.share('checkout care plus app'),
         ),
         const SizedBox(height: 25),
         settingWidget(

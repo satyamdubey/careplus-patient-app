@@ -29,11 +29,11 @@ class ClinicRepository {
   }
 
   static Future<dynamic> getNearByClinics(int limit, int page) async {
-    http.Response response = await ApiClient().getData(
+    var response = await ApiClient().getData(
         '${ApiConstant.nearByClinics}${StorageHelper.getUserId()}/$limit/$page');
-    if (response.statusCode == 200) {
-      NearByClinicsData nearByClinicsData =
-          nearByClinicsFromJson(response.body);
+    if (response is http.Response && response.statusCode == 200) {
+      print(response.statusCode);
+      NearByClinicsData nearByClinicsData = nearByClinicsFromJson(response.body);
       List<Clinic> nearByClinics = nearByClinicsData.clinics;
       return nearByClinics;
     } else {

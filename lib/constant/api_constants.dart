@@ -1,5 +1,5 @@
 class ApiConstant{
-  static const String baseUrl = "https://care-plus.herokuapp.com/";
+  static const String baseUrl = "https://api.careplusco.in/";
 
 
   static const String getImage =  "https://careplusmedia.sgp1.cdn.digitaloceanspaces.com/";
@@ -31,6 +31,7 @@ class ApiConstant{
   static const String getDoctor = "api/v1/patient/get/doctor/";
   static const String topDoctors = "api/v1/patient/doctors/top/";
   static const String getDepartmentDoctors = "api/v1/patient/get/department/doctors/";
+  static const String searchNearbyDoctors = "api/v1/patient/search/doctors/";
 
   // department apis
   static const String getDepartments = "api/v1/patient/departments/";
@@ -59,5 +60,8 @@ class ApiConstant{
   static const String getUpcomingAppointments = "api/v1/patient/get/appointments/upcoming/";
   static const String cancelAppointment = "api/v1/patient/cancel/appointment/";
 
+
+  //  payment apis
+  static const String getTransactionToken = "api/v1/patient/payment/";
 
 }

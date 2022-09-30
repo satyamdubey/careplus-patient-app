@@ -37,42 +37,49 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
 
   int _selectedSlot = 0;
 
-  String timeFromHour(int startTime, int endTime){
-    String consultTime='';
-    String _startTime='';
-    String _endTime='';
-    String startTimeFormat = 'AM';
-    String endTimeFormat = 'AM';
-    if(startTime>=12){
-      startTimeFormat="PM";
+  String _shiftTime(int startTime, int endTime) {
+    String consultTime = '';
+    String _startTime = '';
+    String _endTime = '';
+    String s_t_a = 'AM';
+    String e_t_a = 'AM';
+
+    if (startTime>=12) {
+      s_t_a = "PM";
+      startTime = startTime-12==0?12:startTime-12;
+    }
+    if (startTime>=10) {
+      _startTime = '$startTime:00';
     }
     if(startTime<10){
-      _startTime='0$startTime:00';
-    }else{
-      _startTime='$startTime:00';
+      _startTime = '0$startTime:00';
     }
-    if(endTime>=12){
-      endTimeFormat="PM";
+    if (endTime>=12) {
+      e_t_a = "PM";
+      endTime = endTime-12==0?12:endTime-12;
+    }
+    if (endTime>=10) {
+      _endTime = '$endTime:00';
     }
     if(endTime<10){
-      _endTime='0$endTime:00';
-    }else{
-      _endTime='$endTime:00';
+      _endTime = '0$endTime:00';
     }
-    consultTime=_startTime+' '+startTimeFormat+"-"+_endTime+' '+endTimeFormat;
+    consultTime = _startTime + ' ' + s_t_a + ' - '  + _endTime + ' ' + e_t_a;
     return consultTime;
   }
 
   @override
   void initState() {
     super.initState();
+    _selectedSlot=0;
+    _appointmentController.selectAppointmentShift("morning");
+    _appointmentController.selectAppointmentShiftTime(_shiftTime(widget.appointmentData.morning.startTime, widget.appointmentData.morning.endTime));
+
     if(widget.appointmentData.morning.close){
       _selectedSlot=1;
+      _appointmentController.selectAppointmentShift("evening");
+      _appointmentController.selectAppointmentShiftTime(_shiftTime(widget.appointmentData.evening.startTime, widget.appointmentData.evening.endTime));
     }
-    if(widget.appointmentData.evening.close){
-      _selectedSlot=0;
-    }
-    _appointmentController.selectAppointmentShift("morning");
   }
 
   @override
@@ -129,17 +136,19 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
           height: SizeConfig.blockSizeVertical * 4,
           width: SizeConfig.blockSizeHorizontal * 45,
           radius: RADIUS_DEFAULT,
-          text: _selectedSlot==0?timeFromHour(widget.appointmentData.morning.startTime, widget.appointmentData.morning.endTime):timeFromHour(widget.appointmentData.evening.startTime, widget.appointmentData.evening.endTime),
+          text: _selectedSlot==0
+              ?_shiftTime(widget.appointmentData.morning.startTime, widget.appointmentData.morning.endTime)
+              :_shiftTime(widget.appointmentData.evening.startTime, widget.appointmentData.evening.endTime),
         ),
         SizedBox(
           height: SizeConfig.blockSizeVertical * 2,
         ),
-        Divider(height: 1, thickness: 1.5),
+        const Divider(height: 1, thickness: 1.5),
         SizedBox(
           height: SizeConfig.blockSizeVertical * 2,
         ),
-        Text(
-          'Check Availabilty of morning and evening slots',
+        const Text(
+          'Check Availability of morning and evening slots',
           textAlign: TextAlign.center,
         ),
         SizedBox(
@@ -151,10 +160,12 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             setState(() {
               _selectedSlot = 0;
               _appointmentController.selectAppointmentShift("morning");
+              _appointmentController.selectAppointmentShiftTime(_shiftTime(widget.appointmentData.morning.startTime, widget.appointmentData.morning.endTime));
             });
           },
-          button1Style: widget.appointmentData.morning.close?ActionRowButtonStyle.disabled:
-          _selectedSlot == 0
+          button1Style: widget.appointmentData.morning.close
+              ? ActionRowButtonStyle.disabled
+              : _selectedSlot == 0
               ? ActionRowButtonStyle.primary
               : ActionRowButtonStyle.secondary,
           button2Name: "Evening",
@@ -162,10 +173,12 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             setState(() {
               _selectedSlot = 1;
               _appointmentController.selectAppointmentShift("evening");
+              _appointmentController.selectAppointmentShiftTime(_shiftTime(widget.appointmentData.evening.startTime, widget.appointmentData.evening.endTime));
             });
           },
-          button2Style: widget.appointmentData.evening.close?ActionRowButtonStyle.disabled:
-          _selectedSlot == 1
+          button2Style: widget.appointmentData.evening.close
+              ? ActionRowButtonStyle.disabled
+              : _selectedSlot == 1
               ? ActionRowButtonStyle.primary
               : ActionRowButtonStyle.secondary,
         ),

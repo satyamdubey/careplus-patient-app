@@ -47,34 +47,32 @@ class _GooglePlaceScreenState extends State<GooglePlaceScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextField(
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       labelText: "Search your location",
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
                           color: Colors.blue,
                           width: 2.0,
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: GRADIENT_COLOR,
                         ),
                       ),
                       disabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: GRADIENT_COLOR,
                         ),
                       ),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 2.0,
-                          color: GRADIENT_COLOR,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: GRADIENT_COLOR,
                         ),

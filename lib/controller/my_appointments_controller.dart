@@ -1,6 +1,7 @@
 import 'package:careplus_patient/data/model/appointment.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class MyAppointmentsController extends GetxController {
 
@@ -12,14 +13,11 @@ class MyAppointmentsController extends GetxController {
 
   List<Appointment> get selectedDayAppointments => _selectedDayAppointments;
 
-  set selectedDay(DateTime value) {
+  void selectDay(DateTime value) {
     _selectedDay = value;
-    _selectedDayAppointments = myAppointments.where((element) =>
-        DateFormat('yyyy-MM-dd').parse(element.bookingDate).day ==
-            _selectedDay.day &&
-        DateFormat('yyyy-MM-dd').parse(element.bookingDate).month ==
-            _selectedDay.month).toList();
+    _selectedDayAppointments = myAppointments.where((element){
+      return isSameDay(_selectedDay, DateFormat('yyyy-MM-dd').parse(element.bookingDate));
+    }).toList();
     update();
   }
-
 }
