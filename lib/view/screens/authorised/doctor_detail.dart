@@ -87,7 +87,7 @@ class DoctorDetailScreen extends StatelessWidget {
         ),
         SizedBox(
           height: SizeConfig.blockSizeVertical * 28,
-          child: ClinicsAvailable(
+          child: _clinicsAvailable(
             availableClinics: doctor.availableClinics,
           ),
         ),
@@ -126,6 +126,39 @@ class DoctorDetailScreen extends StatelessWidget {
     );
   }
 
+  Widget _clinicsAvailable({required List<AvailableClinic> availableClinics}){
+    List clinicList = [];
+    for (var element in availableClinics) {
+      clinicList.add(element.clinicDetail);
+    }
+    return Visibility(
+      visible: clinicList.isNotEmpty,
+      replacement: Center(
+        child: Text(
+          'currently not available in any clinics',
+          style: nunitoRegular.copyWith(fontSize: 16)
+        ),
+      ),
+      child: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              PRIMARY_COLOR_1,
+              PRIMARY_COLOR_2,
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: HorizontalClinicList(
+          clinicList: clinicList,
+          bookAppointment: true,
+        ),
+      ),
+    );
+  }
+
   Widget _screenBottomButtons(context, AppointmentController appointmentController) {
     return Column(
       children: [
@@ -156,40 +189,6 @@ class DoctorDetailScreen extends StatelessWidget {
         ),
         const SizedBox(height: 5),
       ],
-    );
-  }
-}
-
-class ClinicsAvailable extends StatelessWidget {
-  final List<AvailableClinic> availableClinics;
-
-  const ClinicsAvailable({
-    Key? key,
-    required this.availableClinics,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    List clinicList = [];
-    for (var element in availableClinics) {
-      clinicList.add(element.clinicDetail);
-    }
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            PRIMARY_COLOR_1,
-            PRIMARY_COLOR_2,
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
-      child: HorizontalClinicList(
-        clinicList: clinicList,
-        bookAppointment: true,
-      ),
     );
   }
 }

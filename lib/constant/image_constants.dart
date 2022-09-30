@@ -1,4 +1,4 @@
-const String carePlusLogo1 = 'assets/images/png/careplus_logo1.png';
+const String carePlusLogo = 'assets/images/png/careplus_logo.png';
 const String welcomeDoctor = 'assets/images/png/welcome_doctor.png';
 const String bottomGradientBar = 'assets/images/png/bottom_gradient_bar.png';
 const String myAppointments = 'assets/images/png/my_appointments.png';

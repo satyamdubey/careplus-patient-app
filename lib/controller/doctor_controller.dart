@@ -110,18 +110,25 @@ class DoctorController extends GetxController {
 
   // controller variables for nearby doctor list
 
-  bool _isNearByDoctorsLoaded = true;
-
-  bool get isNearByDoctorsLoaded => _isNearByDoctorsLoaded;
-
-  initNearByDoctorList(){
-    _nearByDoctorsToClient.clear();
-    _isNearByDoctorsLoaded=false;
-  }
-
   final List<Doctor> _nearByDoctorsToClient = [];
 
   List<Doctor> get nearByDoctorsToClient => _nearByDoctorsToClient;
+
+  bool _isNearByDoctorsLoaded = false;
+
+  bool get isNearByDoctorsLoaded => _isNearByDoctorsLoaded;
+
+
+  Future<void> getNearByDoctorsFromRepository() async {
+    _isNearByDoctorsLoaded=false;
+    update();
+    var response = await DoctorRepository.getNearByDoctors();
+    if (response != null) {
+      _nearByDoctorsToClient.assignAll(response);
+    }
+    _isNearByDoctorsLoaded = true;
+    update();
+  }
 
   Future<void> searchNearByDoctorsFromRepository(String doctorName) async {
     _isNearByDoctorsLoaded=false;

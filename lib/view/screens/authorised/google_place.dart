@@ -48,6 +48,7 @@ class _GooglePlaceScreenState extends State<GooglePlaceScreen> {
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Search your location",
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -153,14 +154,18 @@ class _GooglePlaceScreenState extends State<GooglePlaceScreen> {
                   },
                   onTapButton2: () async {
                     EasyLoading.show(status: 'updating location');
-                    bool value = await userLocationController.updateUserLocation(_selectedLocationName, _selectedLocationCoordinates);
-                    if(value){
+                    bool value =
+                        await userLocationController.updateUserLocation(
+                            _selectedLocationName,
+                            _selectedLocationCoordinates);
+                    if (value) {
                       EasyLoading.showToast('location updated');
                       await userLocationController.setUserLocation(
                           _selectedLocationName, _selectedLocationCoordinates);
                       Navigator.of(context).pop();
-                    }else{
-                      EasyLoading.showToast('some error in updating your location');
+                    } else {
+                      EasyLoading.showToast(
+                          'some error in updating your location');
                     }
                   },
                 )

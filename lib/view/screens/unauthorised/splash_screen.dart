@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(carePlusLogo1),
+            Image.asset(carePlusLogo),
             Text(
               AppLocalization.splashText,
               style: nunitoBold.copyWith(

@@ -64,7 +64,7 @@ class _OtpVerifyState extends State<OtpVerify> {
               height: SizeConfig.blockSizeVertical * 6,
               width: SizeConfig.blockSizeHorizontal * 24,
               child: Image.asset(
-                carePlusLogo1,
+                carePlusLogo,
                 fit: BoxFit.contain,
               ),
             ),

@@ -23,9 +23,14 @@ class NearbyDoctorListScreen extends StatefulWidget {
 }
 
 class _NearbyDoctorListScreenState extends State<NearbyDoctorListScreen> {
-  final nearByDoctorSearchController = Get.find<NearByDoctorSearchController>();
   final doctorController = Get.find<DoctorController>();
   final appointmentController = Get.find<AppointmentController>();
+
+  @override
+  void initState() {
+    super.initState();
+    doctorController.getNearByDoctorsFromRepository();
+  }
 
   @override
   Widget build(BuildContext context) {

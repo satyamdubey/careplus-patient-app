@@ -31,6 +31,7 @@ class ApiConstant{
   static const String getDoctor = "api/v1/patient/get/doctor/";
   static const String topDoctors = "api/v1/patient/doctors/top/";
   static const String getDepartmentDoctors = "api/v1/patient/get/department/doctors/";
+  static const String getNearbyDoctors = "api/v1/patient/near/doctors/";
   static const String searchNearbyDoctors = "api/v1/patient/search/doctors/";
 
   // department apis

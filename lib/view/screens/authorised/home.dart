@@ -107,7 +107,7 @@ class Header extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const UserLocation(locationIconColor: Colors.red),
-        Image.asset(carePlusLogo1, height: 30, width: 90),
+        Image.asset(carePlusLogo, height: 30, width: 90),
       ],
     );
   }
@@ -334,14 +334,9 @@ class BottomPromotions extends StatelessWidget {
   }
 }
 
-class HomeSearchBar extends StatefulWidget {
+class HomeSearchBar extends StatelessWidget {
   const HomeSearchBar({Key? key}) : super(key: key);
 
-  @override
-  State<HomeSearchBar> createState() => _HomeSearchBarState();
-}
-
-class _HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -377,3 +372,4 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     );
   }
 }
+

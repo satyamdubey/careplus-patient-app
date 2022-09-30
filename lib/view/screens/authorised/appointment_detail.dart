@@ -305,6 +305,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           const Spacer(),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
@@ -339,7 +340,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       child: Row(
         children: [
           const Icon(
-            Icons.book_sharp,
+            Icons.watch_later_outlined,
             color: Colors.blue,
           ),
           const SizedBox(width: 10),
@@ -371,7 +372,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       child: Row(
         children: [
           const Icon(
-            Icons.book_sharp,
+            Icons.checklist,
             color: Colors.blue,
           ),
           const SizedBox(width: 10),

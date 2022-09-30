@@ -169,7 +169,7 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
         ),
         SizedBox(
           height: SizeConfig.blockSizeVertical * 25,
-          child: DoctorsAvailable(
+          child: _doctorsAvailable(
             doctors: clinic.doctors,
           ),
         ),
@@ -194,8 +194,8 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
               });
             },
             button1Style: _selectedSlot == 0
-                ? ActionRowButtonStyle.primary
-                : ActionRowButtonStyle.secondary,
+              ? ActionRowButtonStyle.primary
+              : ActionRowButtonStyle.secondary,
             button2Name: "Evening",
             onTapButton2: () {
               setState(() {
@@ -203,13 +203,42 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
               });
             },
             button2Style: _selectedSlot == 1
-                ? ActionRowButtonStyle.primary
-                : ActionRowButtonStyle.secondary,
+              ? ActionRowButtonStyle.primary
+              : ActionRowButtonStyle.secondary,
           ),
-          SizedBox(height: SizeConfig.blockSizeVertical * 2),
+          const SizedBox(height: 16),
         ],
       );
     });
+  }
+
+  Widget _doctorsAvailable({required List<dynamic> doctors}){
+    return Visibility(
+      visible: doctors.isNotEmpty,
+      replacement: Center(
+        child: Text(
+          'No doctors available currently',
+           style: nunitoRegular.copyWith(fontSize: 16)
+        ),
+      ),
+      child: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              PRIMARY_COLOR_1,
+              PRIMARY_COLOR_2,
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: HorizontalDoctorList(
+          bookAppointment: true,
+          doctorsList: doctors,
+        ),
+      ),
+    );
   }
 
   Widget _screenBottomButtons() {
@@ -243,33 +272,6 @@ class _ClinicDetailScreenState extends State<ClinicDetailScreen> {
         ),
         const SizedBox(height: 4)
       ],
-    );
-  }
-}
-
-class DoctorsAvailable extends StatelessWidget {
-  final List<dynamic> doctors;
-
-  const DoctorsAvailable({Key? key, required this.doctors}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            PRIMARY_COLOR_1,
-            PRIMARY_COLOR_2,
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
-      child: HorizontalDoctorList(
-        bookAppointment: true,
-        doctorsList: doctors,
-      ),
     );
   }
 }

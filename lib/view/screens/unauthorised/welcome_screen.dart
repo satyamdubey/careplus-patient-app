@@ -3,7 +3,6 @@ import 'package:careplus_patient/constant/dimension_constants.dart';
 import 'package:careplus_patient/constant/image_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/view/screens/unauthorised/login_user.dart';
-import 'package:careplus_patient/view/screens/unauthorised/register_user.dart';
 import 'package:careplus_patient/view/widgets/primary_button.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';

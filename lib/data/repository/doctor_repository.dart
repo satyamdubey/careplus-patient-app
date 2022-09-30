@@ -26,8 +26,8 @@ class DoctorRepository {
     var response = await ApiClient()
         .getData(ApiConstant.topDoctors + StorageHelper.getUserId());
     if (response is http.Response && response.statusCode == 200) {
-      TopDoctorsData topDoctorsData = topDoctorsFromJson(response.body);
-      List<Doctor> topDoctors = topDoctorsData.topDoctors;
+      DoctorListData topDoctorsData = doctorListDataFromJson(response.body);
+      List<Doctor> topDoctors = topDoctorsData.doctors;
       return topDoctors;
     } else if (response == "Exception") {
       print('Exception while fetching top doctors');
@@ -43,8 +43,8 @@ class DoctorRepository {
     var response = await ApiClient().getData(
         '${ApiConstant.getDepartmentDoctors}${StorageHelper.getUserId()}/$departmentName');
     if (response is http.Response && response.statusCode == 200) {
-      DepartmentDoctorsData departmentDoctorsData = departmentDoctorsFromJson(response.body);
-      List<Doctor> departmentDoctors = departmentDoctorsData.departmentDoctors;
+      DoctorListData departmentDoctorsData = doctorListDataFromJson(response.body);
+      List<Doctor> departmentDoctors = departmentDoctorsData.doctors;
       return departmentDoctors;
     } else if (response == "Exception") {
       print('Exception while fetching department doctors');
@@ -54,13 +54,28 @@ class DoctorRepository {
     }
   }
 
+
+  static Future<dynamic> getNearByDoctors() async {
+    var response = await ApiClient().getData(ApiConstant.getNearbyDoctors+StorageHelper.getUserId());
+    if (response is http.Response && response.statusCode == 200) {
+      DoctorListData searchNearByDoctorsData = doctorListDataFromJson(response.body);
+      List<Doctor> nearbyDoctors = searchNearByDoctorsData.doctors;
+      return nearbyDoctors;
+    } else if (response == "Exception") {
+      print('Exception while fetching department doctors');
+      return null;
+    } else {
+      return null;
+    }
+  }
+
+
   // search nearby doctors
   static Future<dynamic> searchNearByDoctors(String doctorName) async {
     var response = await ApiClient().getData('${ApiConstant.searchNearbyDoctors+StorageHelper.getUserId()}/$doctorName');
     if (response is http.Response && response.statusCode == 200) {
-      SearchNearByDoctorsData searchNearByDoctorsData = searchNearByDoctorsDataFromJson(response.body);
-      List<Doctor> nearbyDoctors = searchNearByDoctorsData.nearByDoctors;
-      print(nearbyDoctors.length);
+      DoctorListData nearByDoctorsData = doctorListDataFromJson(response.body);
+      List<Doctor> nearbyDoctors = nearByDoctorsData.doctors;
       return nearbyDoctors;
     } else if (response == "Exception") {
       print('Exception while fetching department doctors');

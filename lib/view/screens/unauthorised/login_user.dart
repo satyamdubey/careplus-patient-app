@@ -67,12 +67,12 @@ class _LoginUserState extends State<LoginUser> {
   Widget _topView() {
     return Row(
       children: [
-        SizedBox(width: HORIZONTAL_PADDING_EXTRA_LARGE),
+        SizedBox(width: HORIZONTAL_PADDING_DEFAULT),
         SizedBox(
           height: SizeConfig.blockSizeVertical * 6,
           width: SizeConfig.blockSizeHorizontal * 24,
           child: Image.asset(
-            carePlusLogo1,
+            carePlusLogo,
             fit: BoxFit.contain,
           ),
         ),
