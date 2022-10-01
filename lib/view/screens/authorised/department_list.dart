@@ -46,7 +46,7 @@ class _DepartmentListState extends State<DepartmentList> {
           const SizedBox(height: 25),
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: VERTICAL_PADDING_LARGE,
+              horizontal: HORIZONTAL_PADDING_LARGE,
             ),
             child: GetBuilder<DepartmentController>(
               builder: (_){

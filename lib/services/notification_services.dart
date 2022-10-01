@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:careplus_patient/constant/image_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PushNotificationService {
@@ -75,7 +77,9 @@ class PushNotificationService {
     if (appForeground) {
       Get.showSnackbar(
         GetSnackBar(
+          icon: Image.asset(carePlusLogo),
           snackPosition: SnackPosition.TOP,
+          title: "Notification",
           message: message.notification!.title!,
           duration: const Duration(seconds: 5),
         ),

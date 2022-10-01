@@ -65,9 +65,8 @@ class _SelectAppointmentDateScreenState extends State<SelectAppointmentDateScree
               }
               if (_availableAppointmentDates.contains(_selectedDay)) {
                 AppointmentDate appointmentData = _appointmentDataList.singleWhere(
-                        (element) => DateFormat('yyyy-MM-dd').parse(element.date).day == _selectedDay!.day &&
-                            DateFormat('yyyy-MM-dd').parse(element.date).month == _selectedDay!.month);
-                appointmentController.selectAppointmentDate(DateFormat("yyyy-M-dd").format(_selectedDay!));
+                      (element) => isSameDay(_selectedDay, DateFormat('yyyy-MM-dd').parse(element.date)));
+                appointmentController.selectAppointmentDate(DateFormat("yyyy-M-d").format(_selectedDay!));
                 Get.to(()=>DoctorAppointmentScreen(
                   appointmentData: appointmentData,
                   doctor: appointmentController.selectedDoctor,

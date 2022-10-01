@@ -34,23 +34,30 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
   final appointmentController = Get.find<AppointmentController>();
   late Appointment appointment = appointmentController.appointmentDetail;
 
-  // cancel appointment at least before 1 day
-  Future<void> _cancelAppointment() async {
+  // check if cancel, and take confirmation
+  _cancelAppointment(){
     if (DateTime.now().compareTo(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)) < 0) {
-      EasyLoading.show(status: 'Cancelling your appointment');
-      if (await appointmentController.cancelAppointment(appointment.id)) {
-        EasyLoading.dismiss();
-        await EasyLoading.show(status: 'Updating your appointments');
-        await appointmentController.getUpcomingAppointments();
-        EasyLoading.dismiss();
-        EasyLoading.showToast('Appointment Canceled');
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      } else {
-        EasyLoading.dismiss();
-        EasyLoading.showToast('Some Error In Canceling The Appointment');
-      }
+      _showAlertDialog(context);
     } else {
-      EasyLoading.showToast('You can only cancel the appointment before 1 day');
+      EasyLoading.showToast(
+        'You can only cancel the appointment before 1 day'
+      );
+    }
+  }
+
+  // cancel appointment at least before 1 day
+  Future<void> _confirmCancel() async {
+    EasyLoading.show(status: 'Cancelling your appointment');
+    if (await appointmentController.cancelAppointment(appointment.id)) {
+      EasyLoading.dismiss();
+      await EasyLoading.show(status: 'Updating your appointments');
+      await appointmentController.getUpcomingAppointments();
+      EasyLoading.dismiss();
+      EasyLoading.showToast('Appointment Canceled');
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else {
+      EasyLoading.dismiss();
+      EasyLoading.showToast('Some Error In Canceling The Appointment');
     }
   }
 
@@ -715,5 +722,36 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       meetTime = '$meetTime:$meetMin $a';
     }
     return meetTime;
+  }
+
+  _showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("No"),
+      onPressed:  ()=>Navigator.of(context).pop(),
+    );
+    Widget continueButton = TextButton(
+      onPressed:  _confirmCancel,
+      child: const Text("Yes"),
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Cancel Appointment", style: nunitoBold.copyWith(fontSize: 18)),
+      content: Text("Are you sure want to cancel the appointment", style: rubikRegular,),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

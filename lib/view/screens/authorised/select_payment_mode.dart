@@ -165,7 +165,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
           ),
           const Spacer(flex: 1),
           Text(
-            'Note we dont take any consulation fees\nyou are only paying appointment fees',
+            "Note: We don't take any consolation fees\nyou are only paying appointment fees",
             textAlign: TextAlign.center,
             style: nunitoBold.copyWith(
               color: Colors.white,

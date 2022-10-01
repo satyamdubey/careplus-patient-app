@@ -57,6 +57,9 @@ class AppointmentRepository {
     if (response is http.Response && response.statusCode == 201) {
       AppointmentData appointmentData = appointmentDataFromJson2(response.body);
       return appointmentData.appointment;
+    } else if (response.statusCode == 404) {
+      print("slots not available");
+      return null;
     } else {
       return null;
     }

@@ -53,14 +53,14 @@ class _OtpVerifyState extends State<OtpVerify> {
   Widget _topView() {
     return SizedBox(
       height: SizeConfig.blockSizeVertical * 30,
-      child: Padding(
-        padding: EdgeInsets.only(left: HORIZONTAL_PADDING_EXTRA_LARGE),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: HORIZONTAL_PADDING_DEFAULT),
+            child: SizedBox(
               height: SizeConfig.blockSizeVertical * 6,
               width: SizeConfig.blockSizeHorizontal * 24,
               child: Image.asset(
@@ -68,24 +68,30 @@ class _OtpVerifyState extends State<OtpVerify> {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(height: VERTICAL_MARGIN_SMALL),
-            Text(
+          ),
+          SizedBox(height: VERTICAL_MARGIN_SMALL),
+          Padding(
+            padding: EdgeInsets.only(left: HORIZONTAL_PADDING_EXTRA_LARGE),
+            child: Text(
               AppLocalization.otpVerificationTitle,
               style: nunitoBold.copyWith(
                 color: Colors.red,
                 fontSize: FONT_SIZE_OVER_LARGE,
               ),
             ),
-            SizedBox(height: VERTICAL_MARGIN_SMALL),
-            SizedBox(
+          ),
+          SizedBox(height: VERTICAL_MARGIN_SMALL),
+          Padding(
+            padding: EdgeInsets.only(left: HORIZONTAL_PADDING_EXTRA_LARGE),
+            child: SizedBox(
               width: SizeConfig.blockSizeHorizontal * 60,
               child: Text(
                 'We have sent you OTP to verify your mobile number',
                 style: nunitoRegular,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
