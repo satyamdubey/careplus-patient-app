@@ -8,10 +8,9 @@ import 'package:careplus_patient/controller/patient_controller.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
 import 'package:careplus_patient/view/screens/authorised/favourite_clinics.dart';
 import 'package:careplus_patient/view/screens/authorised/profile_update.dart';
-import 'package:careplus_patient/view/screens/authorised/terms_and_condition.dart';
+import 'package:careplus_patient/view/screens/authorised/webview.dart';
 import 'package:careplus_patient/view/screens/unauthorised/welcome_screen.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -66,8 +65,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           SizedBox(width: HORIZONTAL_PADDING_LARGE),
           Container(
-            height: 80,
-            width: 80,
+            height: 70,
+            width: 70,
             decoration: BoxDecoration(
               color: ITEM_BACKGOUND_COLOR,
               shape: BoxShape.circle,
@@ -121,19 +120,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         horizontal: HORIZONTAL_PADDING_LARGE,
       ),
       children: [
-        /*
-        const SizedBox(height: 25),
-        settingWidget(
-          Icons.language_outlined,
-          'Language',
-          Icon(
-            Icons.arrow_forward_ios,
-            size: ICON_SIZE_DEFAULT,
-            color: ARROW_ICON_COLOR,
-          ),
-          () {},
-        ),
-        const SizedBox(height: 25),*/
         settingWidget(
           Icons.person_outline,
           'Invite a friend',
@@ -142,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             size: ICON_SIZE_DEFAULT,
             color: ARROW_ICON_COLOR,
           ),
-          () => Share.share('checkout care plus app'),
+          () => Share.share('https://careplusco.in/\ncheck out careplus app'),
         ),
         const SizedBox(height: 25),
         settingWidget(
@@ -158,35 +144,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(height: 25),
         settingWidget(
           Icons.chat_bubble_outline,
-          "FAQ's",
+          "Return & Refund",
           Icon(
             Icons.arrow_forward_ios,
             size: ICON_SIZE_DEFAULT,
             color: ARROW_ICON_COLOR,
           ),
-          () {},
+          ()=>Get.to(()=>const WebViewScreen(url: 'https://careplusco.in/return&refund')),
         ),
         const SizedBox(height: 25),
         settingWidget(
           Icons.help_center_outlined,
-          'Help Center Number',
-          Icon(
-            Icons.arrow_forward_ios,
-            size: ICON_SIZE_DEFAULT,
-            color: ARROW_ICON_COLOR,
-          ),
-          () {},
-        ),
-        SizedBox(height: 25),
-        settingWidget(
-          Icons.note_outlined,
           'Terms & Conditions',
           Icon(
             Icons.arrow_forward_ios,
             size: ICON_SIZE_DEFAULT,
             color: ARROW_ICON_COLOR,
           ),
-          ()=>Get.to(()=>const TermsAndConditionScreen()),
+          ()=>Get.to(()=>const WebViewScreen(url: 'https://careplusco.in/terms-condition')),
+        ),
+        const SizedBox(height: 25),
+        settingWidget(
+          Icons.note_outlined,
+          'Privacy Policy',
+          Icon(
+            Icons.arrow_forward_ios,
+            size: ICON_SIZE_DEFAULT,
+            color: ARROW_ICON_COLOR,
+          ),
+          ()=>Get.to(()=>const WebViewScreen(url: 'https://careplusco.in/privacy-policy')),
         ),
         const SizedBox(height: 25),
         settingWidget(

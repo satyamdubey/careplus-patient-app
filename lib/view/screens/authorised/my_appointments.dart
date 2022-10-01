@@ -82,7 +82,7 @@ class _MyAppointmentsState extends State<MyAppointmentsScreen> {
           TableCalendar(
             daysOfWeekHeight: 30,
             rowHeight: 40,
-            firstDay: DateTime(DateTime.now().year, DateTime.now().month, 1),
+            firstDay: DateTime(DateTime.now().year, 1, 1),
             lastDay: DateTime(DateTime.now().year, 12, 31),
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
