@@ -115,7 +115,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
                   color: Colors.white,
                 ),
               ),
-              Spacer(flex: 3),
+              const Spacer(flex: 3),
               Text(
                 'Payment Mode',
                 style: nunitoBold.copyWith(
@@ -348,6 +348,10 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
 
 
   Future<void> _createAppointment(int selectedMember) async {
+    if(total<=0){
+      EasyLoading.showToast('Invalid amount');
+      return;
+    }
     FamilyMember familyMember = _familyMemberController.familyMembers[selectedMember];
     EasyLoading.show(status: 'Creating appointment for ${familyMember.name}');
     if (selectedMember == 0) {

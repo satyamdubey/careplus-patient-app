@@ -8,13 +8,21 @@ import 'package:http/http.dart' as http;
 
 class NotificationController extends GetxController{
 
-  List<notify.Notification> _notifications = [];
+  final List<notify.Notification> _notifications = [];
   
   List<notify.Notification> get notifications => _notifications;
   
   bool _isNotificationsLoaded = false;
   
   bool get isNotificationsLoaded => _isNotificationsLoaded;
+
+
+  Future<void> seeNotification(String notificationId) async{
+    var response = await ApiClient().getData('api/v1/patient/notification/see/$notificationId/');
+    if(response is http.Response && response.statusCode==200){
+      print('notification seen');
+    }
+  }
   
   
   Future<void> getAllNotifications() async{

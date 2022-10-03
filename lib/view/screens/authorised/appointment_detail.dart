@@ -718,7 +718,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     if(meetMin<10){
       meetTime = '$meetTime:0$meetMin $a' ;
     }
-    if(meetMin>10){
+    if(meetMin>=10){
       meetTime = '$meetTime:$meetMin $a';
     }
     return meetTime;

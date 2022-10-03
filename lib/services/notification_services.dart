@@ -77,14 +77,14 @@ class PushNotificationService {
     if (appForeground) {
       Get.showSnackbar(
         GetSnackBar(
+          title: "Notification",
           icon: Image.asset(carePlusLogo),
           snackPosition: SnackPosition.TOP,
-          title: "Notification",
           message: message.notification!.title!,
           duration: const Duration(seconds: 5),
         ),
       );
-    } else if (appBackground) {
-    } else if (appTerminated) {}
+    } else if (appBackground) {}
+      else if (appTerminated) {}
   }
 }

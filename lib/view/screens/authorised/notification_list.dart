@@ -64,10 +64,10 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
 
   Widget _notifications(List<notify.Notification> notifications) {
     return notifications.isEmpty
-        ? SizedBox(
+        ?  SizedBox(
             height: SizeConfig.blockSizeVertical * 80,
-            child: Center(child: Text('No Notifications', style: nunitoBold)))
-        : ListView.separated(
+            child: Center(child: Text('No Notifications', style: nunitoBold))
+        ): ListView.separated(
             shrinkWrap: true,
             itemCount: notifications.length,
             padding: EdgeInsets.only(
@@ -78,27 +78,71 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
             ),
             separatorBuilder: (_, __) => const SizedBox(height: 20),
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                tileColor: Colors.grey.shade200,
-                title: Text(
-                  notifications[index].title,
-                  style: nunitoBold.copyWith(fontSize: FONT_SIZE_SMALL),
-                ),
-                subtitle: Text(
-                  'Tap to check',
-                  style: nunitoMedium.copyWith(
-                    color: Colors.black54,
-                    fontSize: FONT_SIZE_DEFAULT,
+              return GestureDetector(
+                onTap: () async{
+                  if(!notifications[index].seen){
+                    notificationController.seeNotification(notifications[index].id);
+                  }
+                  await Get.to(() => AppointmentDetailScreen(
+                    appointmentId: notifications[index].data.appointment,
+                    status: notifications[index].data.status,
+                  ));
+                  notificationController.getAllNotifications();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 6,
+                            child: Text(
+                              notifications[index].title,
+                              style: nunitoBold.copyWith(fontSize: FONT_SIZE_SMALL),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Visibility(
+                              visible: !notifications[index].seen,
+                              replacement: const SizedBox(),
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8)
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'New',
+                                  style: nunitoBold.copyWith(fontSize: 12, color: Colors.red),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        notifications[index].data.status=='completed'
+                            ?'Please review the doctor and clinic'
+                            :'Tap to check',
+                        style: nunitoMedium.copyWith(
+                          color: Colors.black54,
+                          fontSize: FONT_SIZE_DEFAULT,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                onTap: () {
-                  Get.to(
-                    () => AppointmentDetailScreen(
-                      appointmentId: notifications[index].data.appointment,
-                      status: notifications[index].data.status,
-                    ),
-                  );
-                },
               );
             },
           );
