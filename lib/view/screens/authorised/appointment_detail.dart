@@ -41,9 +41,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     if (DateTime.now().compareTo(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)) < 0) {
       _showAlertDialog(context);
     } else {
-      EasyLoading.showToast(
-        'You can only cancel the appointment before 1 day'
-      );
+      EasyLoading.showToast('You can only cancel the appointment before 1 day');
     }
   }
 

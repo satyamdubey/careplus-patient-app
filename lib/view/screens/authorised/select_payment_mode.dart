@@ -23,7 +23,8 @@ import 'package:intl/intl.dart';
 class SelectPaymentModeScreen extends StatefulWidget {
   final int selectedMember;
   final bool free;
-  const SelectPaymentModeScreen({Key? key, required this.selectedMember, this.free=false})
+  const SelectPaymentModeScreen(
+      {Key? key, required this.selectedMember, this.free = false})
       : super(key: key);
 
   @override
@@ -42,7 +43,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
   @override
   void initState() {
     super.initState();
-    if(!widget.free){
+    if (!widget.free) {
       clinicFee = double.parse('${_appointmentController.selectedClinic.fee}');
       tax = (clinicFee * 0.18).roundToDouble();
       total = clinicFee + tax;
@@ -61,22 +62,23 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
           SizedBox(height: SizeConfig.blockSizeVertical * 20),
           widget.free
               ? Text(
-                'To Promote our app,\nWe are not charging any amount for now',
-                style: nunitoBold.copyWith(fontSize: 18), textAlign: TextAlign.center,
+                  'To Promote our app,\nWe are not charging any amount for now',
+                  style: nunitoBold.copyWith(fontSize: 18),
+                  textAlign: TextAlign.center,
                 )
               : Container(
-                width: 100,
-                padding: EdgeInsets.symmetric(
-                  horizontal: HORIZONTAL_PADDING_DEFAULT,
-                  vertical: VERTICAL_PADDING_SMALL,
+                  width: 100,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: HORIZONTAL_PADDING_DEFAULT,
+                    vertical: VERTICAL_PADDING_SMALL,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: SECONDARY_COLOR),
+                  ),
+                  alignment: Alignment.center,
+                  child: Image.asset(paytmLogo),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: SECONDARY_COLOR),
-                ),
-                alignment: Alignment.center,
-                child: Image.asset(paytmLogo),
-          ),
           SizedBox(height: SizeConfig.blockSizeVertical * 5),
           PrimaryButton(
             height: 40,
@@ -296,7 +298,8 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
             const Divider(height: 16, thickness: 2),
             _textRow(
               'Appointment Date',
-              DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
+              DateFormat('dd-MM-yyyy').format(
+                  DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
               nunitoBold.copyWith(
                 color: Colors.grey.shade500,
                 fontSize: FONT_SIZE_SMALL,
@@ -353,40 +356,35 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
     );
   }
 
-
   Future<void> _createAppointment(int selectedMember) async {
-    FamilyMember familyMember = _familyMemberController.familyMembers[selectedMember];
+    if (!widget.free && total <= 0) {
+      EasyLoading.showToast('Invalid amount');
+      return;
+    }
+    FamilyMember familyMember =_familyMemberController.familyMembers[selectedMember];
     EasyLoading.show(status: 'Creating appointment for ${familyMember.name}');
     if (selectedMember == 0) {
       var response = await _appointmentController.createAppointmentForSelf();
       EasyLoading.dismiss();
       if (response != null && response is Appointment) {
-        if(widget.free){
+        if (widget.free) {
           showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(response));
-        }else{
-          if(total>0){
-            await _initiatePayment(response, total);
-          }else{
-            EasyLoading.showToast('Invalid amount');
-          }
+        } else {
+          await _initiatePayment(response, total);
         }
-      }else{
+      } else {
         EasyLoading.showToast('Some problem in creating the appointment');
       }
     } else {
       var response = await _appointmentController.createAppointmentForFamilyMember(familyMember.id);
       EasyLoading.dismiss();
       if (response != null && response is Appointment) {
-        if(widget.free){
+        if (widget.free) {
           showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(response));
-        }else{
-          if(total>0){
-            await _initiatePayment(response, total);
-          }else{
-            EasyLoading.showToast('Invalid amount');
-          }
+        } else {
+          await _initiatePayment(response, total);
         }
-      }else{
+      } else {
         EasyLoading.showToast('Some problem in creating the appointment');
       }
     }
@@ -399,15 +397,16 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
     EasyLoading.dismiss();
     if (tokenResponse is http.Response && tokenResponse.statusCode == 201) {
       if (jsonDecode(tokenResponse.body)['status'] == 'Success') {
-       _processPayment(appointment, amount, tokenResponse);
-      }else{
+        _processPayment(appointment, amount, tokenResponse);
+      } else {
         EasyLoading.showToast('Some Error In Launching Payment Gateway');
       }
     }
   }
 
   // start transaction via paytm sdk
-  Future<void> _processPayment(Appointment appointment, double amount, tokenResponse) async{
+  Future<void> _processPayment(
+      Appointment appointment, double amount, tokenResponse) async {
     String orderId = jsonDecode(tokenResponse.body)['data']['orderId'];
     String txnToken = jsonDecode(tokenResponse.body)['data']['trxResponse']['body']['txnToken'];
     var txnResponse = await PaymentService.startTransaction(orderId, txnToken, amount);
@@ -415,34 +414,33 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
       EasyLoading.show(status: 'processing please wait');
       await PaymentService.sendTransactionResponse(orderId, txnResponse['TXNID']);
       EasyLoading.dismiss();
-      showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(appointment));
+      showDialog(context: context, barrierDismissible: false,builder: (_) => _showOrderConfirmDialog(appointment));
     } else if (txnResponse != null && txnResponse['STATUS'] == 'TXN_FAILURE') {
       EasyLoading.showToast('Payment unsuccessful');
     }
   }
 
-  String _doctorTime(int meetHrs, int meetMin){
+  String _doctorTime(int meetHrs, int meetMin) {
     String meetTime = '';
     String a = '';
-    if(meetHrs>=12){
-      meetTime = '0${meetHrs-12==0?12:meetHrs-12}';
+    if (meetHrs >= 12) {
+      meetTime = '0${meetHrs - 12 == 0 ? 12 : meetHrs - 12}';
       a = 'PM';
     }
-    if(meetHrs>=10&&meetHrs<12){
+    if (meetHrs >= 10 && meetHrs < 12) {
       meetTime = '$meetHrs';
       a = 'AM';
     }
-    if(meetHrs<10){
+    if (meetHrs < 10) {
       meetTime = '0$meetHrs';
       a = 'AM';
     }
-    if(meetMin<10){
-      meetTime = '$meetTime:0$meetMin $a' ;
+    if (meetMin < 10) {
+      meetTime = '$meetTime:0$meetMin $a';
     }
-    if(meetMin>10){
+    if (meetMin > 10) {
       meetTime = '$meetTime:$meetMin $a';
     }
     return meetTime;
   }
-
 }

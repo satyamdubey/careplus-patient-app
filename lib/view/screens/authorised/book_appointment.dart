@@ -245,7 +245,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
               if(response){
                 Get.to(()=>SelectPaymentModeScreen(selectedMember: _selectedMember, free: true));
               }else{
-                Get.to(()=>SelectPaymentModeScreen(selectedMember: _selectedMember, free: true));
+                Get.to(()=>SelectPaymentModeScreen(selectedMember: _selectedMember));
               }
             }else{
               EasyLoading.showToast('Please select patient');
