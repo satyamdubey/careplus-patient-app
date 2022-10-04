@@ -3,6 +3,7 @@ import 'package:careplus_patient/constant/color_constants.dart';
 import 'package:careplus_patient/constant/dimension_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
 import 'package:careplus_patient/controller/appointment_controller.dart';
+import 'package:careplus_patient/controller/notification_controller.dart';
 import 'package:careplus_patient/data/model/appointment.dart';
 import 'package:careplus_patient/data/model/clinic.dart';
 import 'package:careplus_patient/view/screens/authorised/write_review.dart';
@@ -32,6 +33,7 @@ class AppointmentDetailScreen extends StatefulWidget {
 
 class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
   final appointmentController = Get.find<AppointmentController>();
+  final notificationController = Get.find<NotificationController>();
   late Appointment appointment = appointmentController.appointmentDetail;
 
   // check if cancel, and take confirmation
@@ -52,6 +54,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       EasyLoading.dismiss();
       await EasyLoading.show(status: 'Updating your appointments');
       await appointmentController.getUpcomingAppointments();
+      await notificationController.getAllNotifications();
       EasyLoading.dismiss();
       EasyLoading.showToast('Appointment Canceled');
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -729,10 +732,10 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("No"),
-      onPressed:  ()=>Navigator.of(context).pop(),
+      onPressed: ()=>Navigator.of(context).pop(),
     );
     Widget continueButton = TextButton(
-      onPressed:  _confirmCancel,
+      onPressed:_confirmCancel,
       child: const Text("Yes"),
     );
 

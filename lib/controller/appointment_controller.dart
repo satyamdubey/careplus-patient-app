@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:careplus_patient/data/api/api_client.dart';
 import 'package:careplus_patient/data/model/appointment.dart';
 import 'package:careplus_patient/data/model/appointment_availability.dart';
 import 'package:careplus_patient/data/repository/appointment_repository.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
 
 class AppointmentController extends GetxController {
 
@@ -177,6 +182,15 @@ class AppointmentController extends GetxController {
       update();
       return true;
     } else {
+      return false;
+    }
+  }
+  
+  Future<bool> checkDiscount() async{
+    var response = await ApiClient().getData('api/v1/patient/get/discount/');
+    if(response is http.Response && response.statusCode==200){
+      return jsonDecode(response.body)["discount"]["free"];
+    }else{
       return false;
     }
   }

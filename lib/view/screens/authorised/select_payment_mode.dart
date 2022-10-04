@@ -22,8 +22,8 @@ import 'package:intl/intl.dart';
 
 class SelectPaymentModeScreen extends StatefulWidget {
   final int selectedMember;
-
-  const SelectPaymentModeScreen({Key? key, required this.selectedMember})
+  final bool free;
+  const SelectPaymentModeScreen({Key? key, required this.selectedMember, this.free=false})
       : super(key: key);
 
   @override
@@ -42,9 +42,11 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
   @override
   void initState() {
     super.initState();
-    clinicFee = double.parse('${_appointmentController.selectedClinic.fee}');
-    tax = (clinicFee * 0.18).roundToDouble();
-    total = clinicFee + tax;
+    if(!widget.free){
+      clinicFee = double.parse('${_appointmentController.selectedClinic.fee}');
+      tax = (clinicFee * 0.18).roundToDouble();
+      total = clinicFee + tax;
+    }
   }
 
   @override
@@ -57,18 +59,23 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
         children: [
           _topContainer(),
           SizedBox(height: SizeConfig.blockSizeVertical * 20),
-          Container(
-            width: 100,
-            padding: EdgeInsets.symmetric(
-              horizontal: HORIZONTAL_PADDING_DEFAULT,
-              vertical: VERTICAL_PADDING_SMALL,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: SECONDARY_COLOR),
-            ),
-            alignment: Alignment.center,
-            child: Image.asset(paytmLogo),
+          widget.free
+              ? Text(
+                'To Promote our app,\nWe are not charging any amount for now',
+                style: nunitoBold.copyWith(fontSize: 18), textAlign: TextAlign.center,
+                )
+              : Container(
+                width: 100,
+                padding: EdgeInsets.symmetric(
+                  horizontal: HORIZONTAL_PADDING_DEFAULT,
+                  vertical: VERTICAL_PADDING_SMALL,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: SECONDARY_COLOR),
+                ),
+                alignment: Alignment.center,
+                child: Image.asset(paytmLogo),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 5),
           PrimaryButton(
@@ -123,7 +130,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
                   fontSize: FONT_SIZE_EXTRA_LARGE,
                 ),
               ),
-              Spacer(flex: 5),
+              const Spacer(flex: 5),
             ],
           ),
           const Spacer(flex: 2),
@@ -246,7 +253,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
     );
   }
 
-  _showOrderConfirmDialog(Appointment appointment, String txnId) {
+  _showOrderConfirmDialog(Appointment appointment) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -348,17 +355,21 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
 
 
   Future<void> _createAppointment(int selectedMember) async {
-    if(total<=0){
-      EasyLoading.showToast('Invalid amount');
-      return;
-    }
     FamilyMember familyMember = _familyMemberController.familyMembers[selectedMember];
     EasyLoading.show(status: 'Creating appointment for ${familyMember.name}');
     if (selectedMember == 0) {
       var response = await _appointmentController.createAppointmentForSelf();
       EasyLoading.dismiss();
       if (response != null && response is Appointment) {
-        await _initiatePayment(response, total);
+        if(widget.free){
+          showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(response));
+        }else{
+          if(total>0){
+            await _initiatePayment(response, total);
+          }else{
+            EasyLoading.showToast('Invalid amount');
+          }
+        }
       }else{
         EasyLoading.showToast('Some problem in creating the appointment');
       }
@@ -366,7 +377,15 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
       var response = await _appointmentController.createAppointmentForFamilyMember(familyMember.id);
       EasyLoading.dismiss();
       if (response != null && response is Appointment) {
-        await _initiatePayment(response, total);
+        if(widget.free){
+          showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(response));
+        }else{
+          if(total>0){
+            await _initiatePayment(response, total);
+          }else{
+            EasyLoading.showToast('Invalid amount');
+          }
+        }
       }else{
         EasyLoading.showToast('Some problem in creating the appointment');
       }
@@ -388,7 +407,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
   }
 
   // start transaction via paytm sdk
-  _processPayment(Appointment appointment, double amount, tokenResponse) async{
+  Future<void> _processPayment(Appointment appointment, double amount, tokenResponse) async{
     String orderId = jsonDecode(tokenResponse.body)['data']['orderId'];
     String txnToken = jsonDecode(tokenResponse.body)['data']['trxResponse']['body']['txnToken'];
     var txnResponse = await PaymentService.startTransaction(orderId, txnToken, amount);
@@ -396,7 +415,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
       EasyLoading.show(status: 'processing please wait');
       await PaymentService.sendTransactionResponse(orderId, txnResponse['TXNID']);
       EasyLoading.dismiss();
-      showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(appointment, txnResponse['TXNID']));
+      showDialog(context: context, barrierDismissible: false, builder: (_) => _showOrderConfirmDialog(appointment));
     } else if (txnResponse != null && txnResponse['STATUS'] == 'TXN_FAILURE') {
       EasyLoading.showToast('Payment unsuccessful');
     }

@@ -23,8 +23,7 @@ class NotificationController extends GetxController{
       print('notification seen');
     }
   }
-  
-  
+
   Future<void> getAllNotifications() async{
     var response = await ApiClient().getData('${ApiConstant.getNotifications+StorageHelper.getUserId()}/10/1/');
     if(response is http.Response && response.statusCode==200){

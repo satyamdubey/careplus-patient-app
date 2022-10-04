@@ -2,6 +2,7 @@ import 'package:careplus_patient/constant/app_localization.dart';
 import 'package:careplus_patient/constant/color_constants.dart';
 import 'package:careplus_patient/constant/dimension_constants.dart';
 import 'package:careplus_patient/constant/style_constants.dart';
+import 'package:careplus_patient/controller/appointment_controller.dart';
 import 'package:careplus_patient/controller/family_member_controller.dart';
 import 'package:careplus_patient/helper/responsive_helper.dart';
 import 'package:careplus_patient/helper/storage_helper.dart';
@@ -27,6 +28,7 @@ class BookAppointmentScreen extends StatefulWidget {
 
 class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   final _familyMemberController = Get.find<FamilyMemberController>();
+  final _appointmentController = Get.find<AppointmentController>();
 
   final _nameController = TextEditingController(text: '${StorageHelper.getUserName()}');
   final _ageController = TextEditingController(text: '${StorageHelper.getUserAge()}');
@@ -235,11 +237,16 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
             await Get.to(() => const MemberDetailScreen());
             await _familyMemberController.getFamilyMembers();
           },
-          onTapButton2: (){
+          onTapButton2: () async{
             if(_selectedMember!=-1){
-              Get.to(()=>SelectPaymentModeScreen(
-                selectedMember: _selectedMember
-              ));
+              EasyLoading.show(status: 'Processing...');
+              bool response = await _appointmentController.checkDiscount();
+              EasyLoading.dismiss();
+              if(response){
+                Get.to(()=>SelectPaymentModeScreen(selectedMember: _selectedMember, free: true));
+              }else{
+                Get.to(()=>SelectPaymentModeScreen(selectedMember: _selectedMember, free: true));
+              }
             }else{
               EasyLoading.showToast('Please select patient');
             }
