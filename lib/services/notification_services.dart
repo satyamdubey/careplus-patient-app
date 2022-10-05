@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:careplus_patient/constant/image_constants.dart';
+import 'package:careplus_patient/controller/notification_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PushNotificationService {
+
   static final PushNotificationService _pushNotificationService =
       PushNotificationService._internal();
 
@@ -74,7 +76,9 @@ class PushNotificationService {
     bool appBackground = false,
     bool appTerminated = false,
   }) {
+    final notificationController = Get.find<NotificationController>();
     if (appForeground) {
+      notificationController.getAllNotifications();
       Get.showSnackbar(
         GetSnackBar(
           title: "Notification",
@@ -84,7 +88,8 @@ class PushNotificationService {
           duration: const Duration(seconds: 5),
         ),
       );
-    } else if (appBackground) {}
-      else if (appTerminated) {}
+    } else if (appBackground) {
+      notificationController.getAllNotifications();
+    } else if (appTerminated) {}
   }
 }

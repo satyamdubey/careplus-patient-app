@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "670915587402",
+    "project_id": "care-plus-356211",
+    "storage_bucket": "care-plus-356211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670915587402:android:9b9f86860a1c4ac18725b3",
+        "android_client_info": {
+          "package_name": "com.app.careplus_patient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670915587402-svku0aj6in7vgottm0nitbb22rfmoa76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDscs7PHmAahjwKA4Nbr6A-JbLmTOHwQCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670915587402-svku0aj6in7vgottm0nitbb22rfmoa76.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "670915587402-26i0dsgeekqb61msvktqkv0epj70lpvi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tdl.careplusPatient"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,6 +5,7 @@ import 'package:careplus_patient/services/notification_services.dart';
 import 'package:careplus_patient/view/screens/unauthorised/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,6 +16,7 @@ Future<void> main() async {
   await StorageHelper.initialize();
   await LocationService.initialize();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await PushNotificationService().initialize();
   await EasyLocalization.ensureInitialized();
 
@@ -55,4 +57,9 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
     );
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
 }

@@ -423,26 +423,26 @@ class BookingConfirmationScreen extends StatelessWidget {
   }
 }
 
-String _doctorTime(int meetHrs, int meetMin){
-  String meetTime = '';
-  String a = '';
-  if(meetHrs>=12){
-    meetTime = '0${meetHrs-12==0?12:meetHrs-12}';
-    a = 'PM';
+String _doctorTime(int meetHrs, int meetMin) {
+    String meetTime = '';
+    String a = '';
+    if (meetHrs >= 12) {
+      meetTime = '${meetHrs - 12 == 0 ? 12 : '0${meetHrs - 12}'}';
+      a = 'PM';
+    }
+    if (meetHrs >= 10 && meetHrs < 12) {
+      meetTime = '$meetHrs';
+      a = 'AM';
+    }
+    if (meetHrs < 10) {
+      meetTime = '0$meetHrs';
+      a = 'AM';
+    }
+    if (meetMin < 10) {
+      meetTime = '$meetTime:0$meetMin $a';
+    }
+    if (meetMin >= 10) {
+      meetTime = '$meetTime:$meetMin $a';
+    }
+    return meetTime;
   }
-  if(meetHrs>=10&&meetHrs<12){
-    meetTime = '$meetHrs';
-    a = 'AM';
-  }
-  if(meetHrs<10){
-    meetTime = '0$meetHrs';
-    a = 'AM';
-  }
-  if(meetMin<10){
-    meetTime = '$meetTime:0$meetMin $a' ;
-  }
-  if(meetMin>10){
-    meetTime = '$meetTime:$meetMin $a';
-  }
-  return meetTime;
-}

@@ -157,8 +157,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                 padding: EdgeInsets.symmetric(
                   vertical: VERTICAL_PADDING_EXTRA_SMALL,
                 ),
-                separatorBuilder: (_, __) =>
-                    SizedBox(height: VERTICAL_MARGIN_EXTRA_SMALL),
+                separatorBuilder: (_, __) => 
+                  SizedBox(height: VERTICAL_MARGIN_EXTRA_SMALL),
                 itemBuilder: (context, index) {
                   return Container(
                     height: SizeConfig.blockSizeVertical * 7,

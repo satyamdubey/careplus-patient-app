@@ -405,8 +405,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
   }
 
   // start transaction via paytm sdk
-  Future<void> _processPayment(
-      Appointment appointment, double amount, tokenResponse) async {
+  Future<void> _processPayment(Appointment appointment, double amount, tokenResponse) async {
     String orderId = jsonDecode(tokenResponse.body)['data']['orderId'];
     String txnToken = jsonDecode(tokenResponse.body)['data']['trxResponse']['body']['txnToken'];
     var txnResponse = await PaymentService.startTransaction(orderId, txnToken, amount);
@@ -420,11 +419,11 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
     }
   }
 
-  String _doctorTime(int meetHrs, int meetMin) {
+ String _doctorTime(int meetHrs, int meetMin) {
     String meetTime = '';
     String a = '';
     if (meetHrs >= 12) {
-      meetTime = '0${meetHrs - 12 == 0 ? 12 : meetHrs - 12}';
+      meetTime = '${meetHrs - 12 == 0 ? 12 : '0${meetHrs - 12}'}';
       a = 'PM';
     }
     if (meetHrs >= 10 && meetHrs < 12) {
@@ -438,7 +437,7 @@ class _SelectPaymentModeScreenState extends State<SelectPaymentModeScreen> {
     if (meetMin < 10) {
       meetTime = '$meetTime:0$meetMin $a';
     }
-    if (meetMin > 10) {
+    if (meetMin >= 10) {
       meetTime = '$meetTime:$meetMin $a';
     }
     return meetTime;

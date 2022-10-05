@@ -66,8 +66,8 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
     return notifications.isEmpty
         ?  SizedBox(
             height: SizeConfig.blockSizeVertical * 80,
-            child: Center(child: Text('No Notifications', style: nunitoBold))
-        ): ListView.separated(
+            child: Center(child: Text('No Notifications', style: nunitoBold)))
+        : ListView.separated(
             shrinkWrap: true,
             itemCount: notifications.length,
             padding: EdgeInsets.only(
@@ -87,7 +87,6 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                     appointmentId: notifications[index].data.appointment,
                     status: notifications[index].data.status,
                   ));
-                  notificationController.getAllNotifications();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -100,7 +99,6 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             flex: 6,

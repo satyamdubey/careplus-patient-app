@@ -37,8 +37,10 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
   late Appointment appointment = appointmentController.appointmentDetail;
 
   // check if cancel, and take confirmation
-  _cancelAppointment(){
-    if (DateTime.now().compareTo(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)) < 0) {
+  _cancelAppointment() {
+    if (DateTime.now().compareTo(
+            DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)) <
+        0) {
       _showAlertDialog(context);
     } else {
       EasyLoading.showToast('You can only cancel the appointment before 1 day');
@@ -52,7 +54,6 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       EasyLoading.dismiss();
       await EasyLoading.show(status: 'Updating your appointments');
       await appointmentController.getUpcomingAppointments();
-      await notificationController.getAllNotifications();
       EasyLoading.dismiss();
       EasyLoading.showToast('Appointment Canceled');
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -80,12 +81,14 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           return !appointmentController.isAppointmentDetailLoaded
               ? const Center(child: CircularProgressIndicator())
               : appointmentController.appointmentDetail == null
-                  ? const Center(child: Text('Error in loading appointment details'))
+                  ? const Center(
+                      child: Text('Error in loading appointment details'))
                   : SingleChildScrollView(
                       child: Column(
                         children: [
-                          CustomAppBar(context: context, title: 'Appointment Detail'),
-                           const SizedBox(height: 20),
+                          CustomAppBar(
+                              context: context, title: 'Appointment Detail'),
+                          const SizedBox(height: 20),
                           _appointmentDetails(),
                         ],
                       ),
@@ -94,7 +97,6 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       ),
     );
   }
-
 
   Widget _appointmentDetails() {
     return Padding(
@@ -120,7 +122,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           const SizedBox(height: 15),
           _meetupTime(),
           const SizedBox(height: 15),
-          _slot(),
+          _slotNumber(),
           const SizedBox(height: 30),
           Text(
             'Clinic Details',
@@ -154,7 +156,9 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             shape: BoxShape.circle,
             image: DecorationImage(
               fit: BoxFit.fill,
-              image: Image.network(ApiConstant.getImage + appointment.doctor.photo).image,
+              image:
+                  Image.network(ApiConstant.getImage + appointment.doctor.photo)
+                      .image,
             ),
           ),
         ),
@@ -179,16 +183,16 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
         ),
         const Spacer(),
         Visibility(
-          visible: appointment.completed || widget.status=="completed",
+          visible: appointment.completed || widget.status == "completed",
           child: SecondaryButton(
             height: 35,
             width: 90,
             radius: 16,
             text: "Review",
-            onTap: ()=>Get.to(()=>WriteReviewScreen(
-              doctorId: appointment.doctor.id,
-              clinicId: appointment.clinic.id,
-            )),
+            onTap: () => Get.to(() => WriteReviewScreen(
+                  doctorId: appointment.doctor.id,
+                  clinicId: appointment.clinic.id,
+                )),
           ),
         )
       ],
@@ -248,7 +252,9 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const Spacer(),
           Text(
-            appointment.familyMember!=null?appointment.familyMember.name:appointment.bookingFor,
+            appointment.familyMember != null
+                ? appointment.familyMember.name
+                : appointment.bookingFor,
             style: nunitoBold.copyWith(
               color: Colors.black54,
               fontSize: FONT_SIZE_DEFAULT,
@@ -316,14 +322,15 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
+                DateFormat('dd-MM-yyyy').format(
+                    DateFormat('yyyy-MM-dd').parse(appointment.bookingDate)),
                 style: nunitoBold.copyWith(
                   color: Colors.black54,
                   fontSize: FONT_SIZE_SMALL,
                 ),
               ),
               Text(
-                appointment.doctorTime??'No data',
+                appointment.doctorTime ?? 'No data',
                 style: nunitoBold.copyWith(
                   color: Colors.black54,
                   fontSize: FONT_SIZE_SMALL,
@@ -335,7 +342,6 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       ),
     );
   }
-
 
   Widget _meetupTime() {
     return Container(
@@ -369,7 +375,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     );
   }
 
-  Widget _slot() {
+  Widget _slotNumber() {
     return Container(
       height: 45,
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -390,7 +396,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
           ),
           const Spacer(),
           Text(
-            '${appointment.slotNo??'No data'}',
+            '${appointment.slotNo ?? 'No data'}',
             style: nunitoBold.copyWith(
               color: Colors.black54,
               fontSize: FONT_SIZE_SMALL,
@@ -400,7 +406,6 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
       ),
     );
   }
-
 
   Widget _clinicDetails() {
     return Container(
@@ -557,7 +562,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  appointment.transactionId??'',
+                  appointment.transactionId ?? '',
                   style: nunitoBold.copyWith(
                     color: Colors.black54,
                     fontSize: FONT_SIZE_SMALL,
@@ -588,7 +593,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  appointment.trxStatus??'',
+                  appointment.trxStatus ?? '',
                   style: nunitoBold.copyWith(
                     color: Colors.black54,
                     fontSize: FONT_SIZE_DEFAULT,
@@ -602,19 +607,17 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     );
   }
 
-
   Widget _actionButton() {
     return PrimaryButton(
-      height: 40,
-      width: 120,
-      radius: 16,
-      text: appointment.completed || widget.status=="canceled"
-          ? "Back"
-          : "Cancel",
-      onTap: appointment.completed || widget.status=="canceled"
-          ? () => Navigator.of(context).pop()
-          : _cancelAppointment
-    );
+        height: 40,
+        width: 120,
+        radius: 16,
+        text: appointment.completed || widget.status == "canceled"
+            ? "Back"
+            : "Cancel",
+        onTap: appointment.completed || widget.status == "canceled"
+            ? () => Navigator.of(context).pop()
+            : _cancelAppointment);
   }
 
   List<String> getWorkingTimeOfClinic(Clinic clinic) {
@@ -677,70 +680,73 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     String s_t_a = 'AM';
     String e_t_a = 'AM';
 
-    if (startTime>=12) {
+    if (startTime >= 12) {
       s_t_a = "PM";
-      startTime = startTime-12==0?12:startTime-12;
+      startTime = startTime - 12 == 0 ? 12 : startTime - 12;
     }
-    if (startTime>=10) {
+    if (startTime >= 10) {
       _startTime = '$startTime:00';
     }
-    if(startTime<10){
+    if (startTime < 10) {
       _startTime = '0$startTime:00';
     }
-    if (endTime>=12) {
+    if (endTime >= 12) {
       e_t_a = "PM";
-      endTime = endTime-12==0?12:endTime-12;
+      endTime = endTime - 12 == 0 ? 12 : endTime - 12;
     }
-    if (endTime>=10) {
+    if (endTime >= 10) {
       _endTime = '$endTime:00';
     }
-    if(endTime<10){
+    if (endTime < 10) {
       _endTime = '0$endTime:00';
     }
-    consultTime = _startTime + ' ' + s_t_a + ' - '  + _endTime + ' ' + e_t_a;
+    consultTime = _startTime + ' ' + s_t_a + ' - ' + _endTime + ' ' + e_t_a;
     return consultTime;
   }
 
-  String _doctorTime(int meetHrs, int meetMin){
+  String _doctorTime(int meetHrs, int meetMin) {
     String meetTime = '';
     String a = '';
-    if(meetHrs>=12){
-      meetTime = '0${meetHrs-12==0?12:meetHrs-12}';
+    if (meetHrs >= 12) {
+      meetTime = '${meetHrs - 12 == 0 ? 12 : '0${meetHrs - 12}'}';
       a = 'PM';
     }
-    if(meetHrs>=10&&meetHrs<12){
+    if (meetHrs >= 10 && meetHrs < 12) {
       meetTime = '$meetHrs';
       a = 'AM';
     }
-    if(meetHrs<10){
+    if (meetHrs < 10) {
       meetTime = '0$meetHrs';
       a = 'AM';
     }
-    if(meetMin<10){
-      meetTime = '$meetTime:0$meetMin $a' ;
+    if (meetMin < 10) {
+      meetTime = '$meetTime:0$meetMin $a';
     }
-    if(meetMin>=10){
+    if (meetMin >= 10) {
       meetTime = '$meetTime:$meetMin $a';
     }
     return meetTime;
   }
 
   _showAlertDialog(BuildContext context) {
-
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("No"),
-      onPressed: ()=>Navigator.of(context).pop(),
+      onPressed: () => Navigator.of(context).pop(),
     );
     Widget continueButton = TextButton(
-      onPressed:_confirmCancel,
+      onPressed: _confirmCancel,
       child: const Text("Yes"),
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Cancel Appointment", style: nunitoBold.copyWith(fontSize: 18)),
-      content: Text("Are you sure want to cancel the appointment", style: rubikRegular,),
+      title:
+          Text("Cancel Appointment", style: nunitoBold.copyWith(fontSize: 18)),
+      content: Text(
+        "Are you sure want to cancel the appointment",
+        style: rubikRegular,
+      ),
       actions: [
         cancelButton,
         continueButton,
