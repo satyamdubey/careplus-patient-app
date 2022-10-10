@@ -76,4 +76,24 @@ class ReviewController extends GetxController{
     }
   }
 
+
+  Future<bool> reportClinic(String clinicId) async{
+    var response = await ReviewRepository.reportClinic(clinicId);
+    if(response!=null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+
+  Future<bool> reportDoctor(String doctorId) async{
+    var response = await ReviewRepository.reportDoctor(doctorId);
+    if(response!=null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 }

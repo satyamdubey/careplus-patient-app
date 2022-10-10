@@ -8,6 +8,7 @@ import 'package:careplus_patient/view/widgets/custom_app_bar.dart';
 import 'package:careplus_patient/view/widgets/rating_stars.dart';
 import 'package:careplus_patient/view/widgets/status_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class DoctorReviewsScreen extends StatefulWidget {
@@ -129,13 +130,34 @@ class _DoctorReviewsScreenState extends State<DoctorReviewsScreen> {
               ],
             ),
             subtitle: Text(
-              '${reviews[index].review}',
+              reviews[index].review,
               style: robotoBold.copyWith(
                 color: Colors.black54,
                 fontSize: FONT_SIZE_SMALL,
               ),
             ),
-          );
+            trailing: PopupMenuButton(
+                child: const Icon(Icons.more_vert),
+                itemBuilder: (context) {
+                  return List.generate(1, (index) {
+                    return PopupMenuItem(
+                      child: const Text('Flag as abusive'),
+                      onTap: () {
+                        reviewController
+                          .reportDoctor(reviews[index].id)
+                          .then((value) {
+                            if (value) {
+                              EasyLoading.showToast('Flagged as abusive');
+                            } else {
+                              EasyLoading.showToast('Some error');
+                            }
+                        });
+                      },
+                    );
+                  });
+                },
+              ),
+            );
         },
       ),
     );

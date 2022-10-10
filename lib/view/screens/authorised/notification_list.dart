@@ -53,7 +53,8 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                     child: SmartRefresher(
                       controller: _refreshController,
                       onRefresh: _onRefresh,
-                      child: _notifications(notificationController.notifications),
+                      child:
+                          _notifications(notificationController.notifications),
                     ),
                   )
                 ],
@@ -64,9 +65,10 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
 
   Widget _notifications(List<notify.Notification> notifications) {
     return notifications.isEmpty
-        ?  SizedBox(
+        ? SizedBox(
             height: SizeConfig.blockSizeVertical * 80,
-            child: Center(child: Text('No Notifications', style: nunitoBold)))
+            child: Center(child: Text('No Notifications', style: nunitoBold))
+          )
         : ListView.separated(
             shrinkWrap: true,
             itemCount: notifications.length,
@@ -79,22 +81,25 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
             separatorBuilder: (_, __) => const SizedBox(height: 20),
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
-                onTap: () async{
-                  if(!notifications[index].seen){
-                    notificationController.seeNotification(notifications[index].id);
+                onTap: () async {
+                  if (!notifications[index].seen) {
+                    notificationController
+                        .seeNotification(notifications[index].id);
                   }
                   await Get.to(() => AppointmentDetailScreen(
-                    appointmentId: notifications[index].data.appointment,
-                    status: notifications[index].data.status,
-                  ));
+                        appointmentId: notifications[index].data.appointment,
+                        status: notifications[index].data.status,
+                      ));
+                  notificationController.getAllNotifications();
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child:Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
@@ -116,7 +121,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                                 padding: const EdgeInsets.all(2),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8)
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
@@ -130,9 +135,9 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        notifications[index].data.status=='completed'
-                            ?'Please review the doctor and clinic'
-                            :'Tap to check',
+                        notifications[index].data.status == 'completed'
+                            ? 'Please review the doctor and clinic'
+                            : 'Tap to check',
                         style: nunitoMedium.copyWith(
                           color: Colors.black54,
                           fontSize: FONT_SIZE_DEFAULT,

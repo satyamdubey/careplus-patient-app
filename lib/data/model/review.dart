@@ -131,16 +131,19 @@ class ReviewListData {
 
 class Review{
   Review({
+    required this.id,
     required this.rating,
     required this.review,
     required this.patient,
   });
 
+  String id;
   int rating;
   String review;
   Patient patient;
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
+    id: json["_id"],
     rating: json["rating"]??0,
     review: json["review"]??'',
     patient: Patient.fromJson(json["patient"]),

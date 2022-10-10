@@ -83,6 +83,7 @@ class _HorizontalDoctorListState extends State<HorizontalDoctorList> {
                             color: ITEM_BACKGOUND_COLOR,
                             borderRadius: BorderRadius.circular(RADIUS_EXTRA_SMALL),
                             image: DecorationImage(
+                              fit: BoxFit.fill,
                               onError: (_, __) => print('error loading image'),
                               image: widget.doctorsList[index].photo == null
                                   ? Image.asset(doctorImage).image
@@ -135,7 +136,7 @@ class _HorizontalDoctorListState extends State<HorizontalDoctorList> {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
                                     style: rubikRegular.copyWith(
-                                      fontSize: FONT_SIZE_DEFAULT,
+                                      fontSize: FONT_SIZE_SMALL,
                                       color: ITEM_DESCRIPTION_COLOR,
                                     ),
                                   ),
@@ -264,7 +265,7 @@ class _HorizontalClinicListState extends State<HorizontalClinicList> {
                         flex: 1,
                         child: RatingWidget(
                           averageRating: widget.clinicList[index].averageRating ?? 0,
-                          reviewsCount: widget.clinicList[index].averageRating ?? 0,
+                          reviewsCount: widget.clinicList[index].reviewsCount ?? 0,
                           iconSize: ICON_SIZE_DEFAULT,
                           textFontSize: FONT_SIZE_EXTRA_SMALL,
                           textColor: _selectedItem == index ? Colors.white : Colors.black,

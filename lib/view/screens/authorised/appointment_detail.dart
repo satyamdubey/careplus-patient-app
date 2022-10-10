@@ -156,9 +156,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             shape: BoxShape.circle,
             image: DecorationImage(
               fit: BoxFit.fill,
-              image:
-                  Image.network(ApiConstant.getImage + appointment.doctor.photo)
-                      .image,
+              image:Image.network(ApiConstant.getImage + appointment.doctor.photo).image,
             ),
           ),
         ),
@@ -170,7 +168,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
             Text(
               appointment.doctor.fullName,
               style: nunitoBold.copyWith(
-                fontSize: FONT_SIZE_MEDIUM,
+                fontSize: FONT_SIZE_DEFAULT,
               ),
             ),
             Text(

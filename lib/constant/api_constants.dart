@@ -47,6 +47,8 @@ class ApiConstant{
   static const String getClinicRatings = "api/v1/patient/clinic/ratings/";
   static const String doctorRating = "api/v1/patient/doctor/rating/";
   static const String clinicRating = "api/v1/patient/clinic/rating/";
+  static const String reportClinic = "api/v1/patient/clinic/report/";
+  static const String reportDoctor = "api/v1/patient/doctor/report/";
 
   // family member apis
   static const String addFamilyMember = "api/v1/patient/family/addMember/";
