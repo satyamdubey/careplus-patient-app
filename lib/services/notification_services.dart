@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PushNotificationService {
-
   static final PushNotificationService _pushNotificationService =
       PushNotificationService._internal();
 

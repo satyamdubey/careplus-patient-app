@@ -1,5 +1,4 @@
 import 'package:careplus_patient/constant/api_constants.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -27,7 +26,6 @@ class ApiClient {
 
   Future<dynamic> getData(String path) async {
     String getUrl = ApiConstant.baseUrl + path;
-    print(getUrl);
     try {
       http.Response response = await http
           .get(Uri.parse(getUrl), headers: _mainHeaders)
@@ -62,7 +60,6 @@ class ApiClient {
     }
   }
 
-
   Future<dynamic> deleteData(String path) async {
     String deleteUrl = ApiConstant.baseUrl + path;
     try {
@@ -75,17 +72,19 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> postMultipartData({required String path,
-    Map<String, String>? textFields, Map<String, String>? fileFields}) async{
-
-    String postUrl = ApiConstant.baseUrl+path;
+  Future<dynamic> postMultipartData({
+    required String path,
+    Map<String, String>? textFields,
+    Map<String, String>? fileFields,
+  }) async {
+    String postUrl = ApiConstant.baseUrl + path;
     var request = http.MultipartRequest("POST", Uri.parse(postUrl));
 
-    if(textFields!=null && textFields.isNotEmpty){
-      request.fields.assignAll(textFields);
+    if (textFields != null && textFields.isNotEmpty) {
+      request.fields.addAll(textFields);
     }
-    if(fileFields!=null && fileFields.isNotEmpty){
-      fileFields.forEach((key, value)async{
+    if (fileFields != null && fileFields.isNotEmpty) {
+      fileFields.forEach((key, value) async {
         request.files.add(await http.MultipartFile.fromPath(key, value));
       });
     }
@@ -100,23 +99,13 @@ class ApiClient {
 
   void handleErrorResponse(http.Response response) {
     if (response.statusCode == 400) {
-
     } else if (response.statusCode == 401) {
-
     } else if (response.statusCode == 403) {
-
     } else if (response.statusCode == 404) {
-
-    }else if (response.statusCode == 408) {
-
+    } else if (response.statusCode == 408) {
     } else if (response.statusCode == 500) {
-
     } else if (response.statusCode == 503) {
-
     } else if (response.statusCode == 504) {
-
-    }else{
-
-    }
+    } else {}
   }
 }
